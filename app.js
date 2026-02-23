@@ -250,6 +250,44 @@ function convertMoodToScore(m) {
   return 5;
 }
 
+function getWeeklyTestStats() {
+  try {
+    const tests = JSON.parse(localStorage.getItem('psy_tests')) || [];
+    const now = new Date();
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(now.getDate() - 7);
+
+    // Фильтруем тесты за последние 7 дней
+    const recentTests = tests.filter(test => {
+      const testDate = new Date(test.date);
+      return testDate >= sevenDaysAgo && testDate <= now;
+    });
+
+    if (recentTests.length === 0) {
+      return { recommendation: 'Нет данных за последнюю неделю. Пройдите тест для оценки.' };
+    }
+
+    // Рассчитываем средний балл
+    const totalScore = recentTests.reduce((sum, test) => sum + (test.score || 0), 0);
+    const averageScore = totalScore / recentTests.length;
+
+    // Определяем рекомендацию на основе среднего балла
+    let recommendation;
+    if (averageScore < 4) {
+      recommendation = 'Ваш средний балл низкий. Рекомендуется обратиться к психологу для дополнительной поддержки.';
+    } else if (averageScore < 7) {
+      recommendation = 'Ваш средний балл средний. Продолжайте следить за своим состоянием и использовать доступные ресурсы.';
+    } else {
+      recommendation = 'Ваш средний балл хороший! Продолжайте в том же духе и поддерживайте позитивные привычки.';
+    }
+
+    return { averageScore: averageScore.toFixed(1), recommendation };
+  } catch (error) {
+    console.error('Ошибка при получении статистики тестов:', error);
+    return { recommendation: 'Ошибка при загрузке данных. Попробуйте позже.' };
+  }
+}
+
 function renderEntries() {
   const list = document.getElementById('entries-list');
   if (!list) return;

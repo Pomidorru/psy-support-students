@@ -17,12 +17,28 @@ const STORAGE_KEYS = {
 };
 
 // YouTube-медитации (замените id при необходимости)
-const MEDITATIONS = [
-  { id: 'inpok4MKVLM', title: 'Медитация для снятия стресса',  duration: '10 мин' },
-  { id: 'O-6f5wQXSu8', title: 'Медитация осознанности',        duration: '8 мин'  },
-  { id: '1ZYbU82GVz4', title: 'Концентрация и спокойствие',     duration: '12 мин' },
-  { id: 'aXItOY0sLRY', title: 'Расслабление перед сном',        duration: '15 мин' },
-  { id: 'ZToicYcHIOU', title: 'Дыхательная практика 4-7-8',     duration: '5 мин'  },
+const MEDITATIONS_CATEGORIES = [
+  {
+    categoryTitle: 'Для спокойствия и снятия стресса',
+    items: [
+      { id: 'inpok4MKVLM', title: 'Медитация для снятия стресса', duration: '10 мин' },
+      { id: 'aXItOY0sLRY', title: 'Расслабление перед сном', duration: '15 мин' },
+      { id: 'ZToicYcHIOU', title: 'Дыхательная практика 4-7-8', duration: '5 мин' }
+    ]
+  },
+  {
+    categoryTitle: 'Для сосредоточения и продуктивности',
+    items: [
+      { id: 'O-6f5wQXSu8', title: 'Медитация осознанности', duration: '8 мин' },
+      { id: '1ZYbU82GVz4', title: 'Концентрация и спокойствие', duration: '12 мин' }
+    ]
+  },
+  {
+    categoryTitle: 'Быстрые практики',
+    items: [
+      { id: 'dQw4w9WgXcQ', title: 'Минутка тишины', duration: '1 мин' }
+    ]
+  }
 ];
 
 // Варианты для модала "Срочно":

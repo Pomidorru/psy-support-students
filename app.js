@@ -41,6 +41,9 @@ const MEDITATIONS_CATEGORIES = [
   }
 ];
 
+// Плоский массив всех медитаций для случайного выбора
+const MEDITATIONS = MEDITATIONS_CATEGORIES.flatMap(category => category.items);
+
 // Варианты для модала "Срочно":
 //   type 'tip'   — текстовый совет (content — HTML)
 //   type 'audio' — случайное видео из MEDITATIONS
@@ -414,18 +417,23 @@ function initAudio() {
   const grid = document.getElementById('audio-grid');
   if (!grid) return;
 
-  grid.innerHTML = MEDITATIONS.map(m => `
-    <div class="audio-card fade-in">
-      <iframe class="yt-embed"
-        src="https://www.youtube.com/embed/${m.id}?rel=0"
-        title="${m.title}"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      <div class="audio-card-info">
-        <h3>${m.title}</h3>
-        <span class="duration">⏱ ${m.duration}</span>
-      </div>
+  grid.innerHTML = MEDITATIONS_CATEGORIES.map(category => `
+    <h2 class="category-title">${category.categoryTitle}</h2>
+    <div class="category-grid">
+      ${category.items.map(item => `
+        <div class="audio-card fade-in">
+          <iframe class="yt-embed"
+            src="https://www.youtube.com/embed/${item.id}?rel=0"
+            title="${item.title}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <div class="audio-card-info">
+            <h3>${item.title}</h3>
+            <span class="duration">⏱ ${item.duration}</span>
+          </div>
+        </div>
+      `).join('')}
     </div>
   `).join('');
 

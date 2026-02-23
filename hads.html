@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Медитации — ПсиПоддержка</title>
+  <title>HADS — Госпитальная шкала тревоги — ПсиПоддержка</title>
   <link rel="stylesheet" href="style.css" />
   <script src="app.js?v=1"></script>
 </head>
 <body>
 
+<!-- ══ НАВИГАЦИЯ ══ -->
 <nav>
   <a class="nav-logo" href="index.html">🌿 ПсиПоддержка</a>
   <div class="nav-right">
@@ -23,15 +24,20 @@
   </div>
 </nav>
 
+<!-- ══ ОСНОВНОЙ КОНТЕНТ ══ -->
 <div class="container">
-  <div style="margin-bottom:28px;" class="fade-in">
-    <h1>🎧 Медитации</h1>
-    <p>Короткие русскоязычные практики для снятия тревоги и перезагрузки.</p>
+
+  <div id="test-container" class="fade-in">
+    <!-- Тест или результат будут вставлены здесь -->
   </div>
 
-  <!-- Видео рендерятся из массива MEDITATIONS в app.js -->
-  <div id="audio-grid"></div>
-</div>
+</div><!-- /container -->
 
+<script src="tests.js?v=1"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    renderHADSTest();
+  });
+</script>
 </body>
 </html>

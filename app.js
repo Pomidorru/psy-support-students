@@ -288,7 +288,7 @@ function getWeeklyTestStats() {
   }
 }
 
-function renderWeeklyStats() {
+function  renderWeeklyStats() {
   const container = document.getElementById('stats-container');
   if (!container) return;
 

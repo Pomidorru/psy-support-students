@@ -706,3 +706,48 @@ input[type="range"]::-moz-range-thumb {
   font-size: 1rem;
   line-height: 1.4;
 }
+
+/* ══════════════════════════════════
+   КАРТОЧКИ ТЕСТОВ
+   ══════════════════════════════════ */
+.test-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.test-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.test-card h3 {
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.test-card .btn {
+  margin-top: auto;
+}
+
+/* ══════════════════════════════════
+   БЛОКИ ВОПРОСОВ
+   ══════════════════════════════════ */
+.question-block {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

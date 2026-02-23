@@ -55,11 +55,13 @@
         <textarea id="diary-text" rows="4" placeholder="Напишите любую мысль или ощущение..."></textarea>
       </div>
       <div class="form-group">
-        <label>Настроение: <span id="mood-value">5</span> / 10</label>
-        <div class="slider-wrap">
-          <span>😞</span>
-          <input type="range" id="mood-slider" min="1" max="10" value="5" />
-          <span>😊</span>
+        <label>Настроение:</label>
+        <div id="mood-selector">
+          <span class="mood-emoji" data-mood="1">☹️</span>
+          <span class="mood-emoji" data-mood="2">🙁</span>
+          <span class="mood-emoji selected" data-mood="3">😐</span>
+          <span class="mood-emoji" data-mood="4">🙂</span>
+          <span class="mood-emoji" data-mood="5">😊</span>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Сохранить</button>

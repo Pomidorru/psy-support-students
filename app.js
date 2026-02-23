@@ -192,12 +192,12 @@ function getEntries() {
   catch { return []; }
 }
 
-function saveEntry(text, mood) {
+function saveEntry(text, moodScore) {
   const entries = getEntries();
   entries.unshift({
     id:   Date.now(),
     text,
-    mood,
+    moodScore,
     date: new Date().toLocaleString('ru-RU', {
       day: '2-digit', month: 'short', year: 'numeric',
       hour: '2-digit', minute: '2-digit',
@@ -214,9 +214,24 @@ function deleteEntry(id) {
 
 // Цвет бейджа настроения
 function moodColor(m) {
-  if (m <= 3) return '#C97D7D';   // плохо
-  if (m <= 6) return '#D4A857';   // средне
+  if (m <= 2) return '#C97D7D';   // плохо
+  if (m === 3) return '#D4A857';   // средне
   return '#7A9E7E';               // хорошо
+}
+
+// Эмодзи настроения
+function getMoodEmoji(m) {
+  const emojis = ['☹️', '🙁', '😐', '🙂', '😊'];
+  return emojis[m - 1] || '😐';
+}
+
+// Конвертация старого mood (1-10) в moodScore (1-5)
+function convertMoodToScore(m) {
+  if (m <= 2) return 1;
+  if (m <= 4) return 2;
+  if (m === 5) return 3;
+  if (m <= 8) return 4;
+  return 5;
 }
 
 function renderEntries() {
@@ -229,9 +244,11 @@ function renderEntries() {
     return;
   }
 
-  list.innerHTML = entries.map(e => `
+  list.innerHTML = entries.map(e => {
+    const moodScore = e.moodScore || convertMoodToScore(e.mood);
+    return `
     <div class="entry-card">
-      <div class="entry-mood-badge" style="background:${moodColor(e.mood)}">${e.mood}</div>
+      <div class="entry-mood-badge" style="background:${moodColor(moodScore)}">${getMoodEmoji(moodScore)}</div>
       <div class="entry-body">
         <div class="entry-text">${escapeHtml(e.text)}</div>
         <div class="entry-date">${e.date}</div>
@@ -239,29 +256,37 @@ function renderEntries() {
       <button onclick="deleteEntry(${e.id})" title="Удалить запись"
         style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:4px 8px;flex-shrink:0;">✕</button>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 function initDiary() {
-  const form    = document.getElementById('diary-form');
-  const slider  = document.getElementById('mood-slider');
-  const display = document.getElementById('mood-value');
+  let currentMood = 3; // начальное настроение — средне
+
+  const form = document.getElementById('diary-form');
   if (!form) return;
 
-  // Обновлять цифру при движении слайдера
-  slider.addEventListener('input', () => { display.textContent = slider.value; });
+  // Обработчики для шкалы настроения
+  document.querySelectorAll('#mood-selector .mood-emoji').forEach(emoji => {
+    emoji.addEventListener('click', () => {
+      document.querySelectorAll('#mood-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
+      emoji.classList.add('selected');
+      currentMood = parseInt(emoji.dataset.mood);
+    });
+  });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = document.getElementById('diary-text').value.trim();
     if (!text) { showToast('Напишите что-нибудь 🙏'); return; }
 
-    saveEntry(text, parseInt(slider.value));
+    saveEntry(text, currentMood);
 
     // Сброс формы
     document.getElementById('diary-text').value = '';
-    slider.value = 5;
-    display.textContent = '5';
+    // Сброс настроения к среднему
+    document.querySelectorAll('#mood-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
+    document.querySelector('#mood-selector .mood-emoji[data-mood="3"]').classList.add('selected');
+    currentMood = 3;
     showToast('Запись сохранена ✓');
     renderEntries();
   });

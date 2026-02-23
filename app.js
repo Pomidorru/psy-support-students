@@ -257,7 +257,7 @@ function renderEntries() {
   const entries = getEntries();
   if (!entries.length) {
     list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;">Записей пока нет. Напишите первую! 🌱</p>';
-    calculateMoodSum();
+    calculateMoodStats();
     return;
   }
 
@@ -284,20 +284,29 @@ function renderEntries() {
     </div>
   `}).join('');
 
-  calculateMoodSum();
+  calculateMoodStats();
 }
 
-function calculateMoodSum() {
+function calculateMoodStats() {
   const entries = getEntries();
-  const sum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
-  const avg = entries.length > 0 ? (sum / entries.length).toFixed(1) : 0;
-  const moodSumEl = document.getElementById('mood-sum');
-  const moodAvgEl = document.getElementById('mood-avg');
-  if (moodSumEl) {
-    moodSumEl.textContent = sum;
+  if (entries.length === 0) {
+    const moodAvgEl = document.getElementById('mood-avg');
+    const stressAvgEl = document.getElementById('stress-avg');
+    if (moodAvgEl) moodAvgEl.textContent = '0';
+    if (stressAvgEl) stressAvgEl.textContent = 'Средний стресс: 0';
+    return;
   }
+  const moodSum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
+  const moodAvg = (moodSum / entries.length).toFixed(1);
+  const stressSum = entries.reduce((total, entry) => total + (entry.stressScale || 0), 0);
+  const stressAvg = (stressSum / entries.length).toFixed(1);
+  const moodAvgEl = document.getElementById('mood-avg');
+  const stressAvgEl = document.getElementById('stress-avg');
   if (moodAvgEl) {
-    moodAvgEl.textContent = `Среднее: ${avg}`;
+    moodAvgEl.textContent = moodAvg;
+  }
+  if (stressAvgEl) {
+    stressAvgEl.textContent = `Средний стресс: ${stressAvg}`;
   }
 }
 

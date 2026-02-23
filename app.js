@@ -288,6 +288,33 @@ function getWeeklyTestStats() {
   }
 }
 
+function renderWeeklyStats() {
+  const container = document.getElementById('stats-container');
+  if (!container) return;
+
+  const stats = getWeeklyTestStats();
+
+  // Определяем цвет рамки
+  let borderColor = 'transparent';
+  if (stats.averageScore) {
+    const score = parseFloat(stats.averageScore);
+    if (score < 4) borderColor = '#C97D7D'; // красный
+    else if (score < 7) borderColor = '#D4A857'; // желтый
+    else borderColor = '#7A9E7E'; // зеленый
+  }
+
+  container.style.borderColor = borderColor;
+
+  if (!stats.averageScore || stats.recommendation === 'Нет данных за последнюю неделю. Пройдите тест для оценки.' || stats.recommendation.startsWith('Ошибка')) {
+    container.innerHTML = '<p>Пройдите хотя бы один тест за неделю.</p>';
+  } else {
+    container.innerHTML = `
+      <h3>Средний балл: ${stats.averageScore}</h3>
+      <p>${stats.recommendation}</p>
+    `;
+  }
+}
+
 function renderEntries() {
   const list = document.getElementById('entries-list');
   if (!list) return;
@@ -655,6 +682,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const page = window.location.pathname.split('/').pop() || 'index.html';
 
   if (page === 'login.html')     initLogin();
-  if (page === 'dashboard.html') initDashboard();
+  if (page === 'dashboard.html') { initDashboard(); renderWeeklyStats(); }
   if (page === 'audio.html')     { requireAuth(); initAudio(); }
 });

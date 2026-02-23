@@ -683,3 +683,26 @@ input[type="range"]::-moz-range-thumb {
   .btn-danger { padding: 14px 24px; font-size: 0.95rem; }
   .toast { max-width: 90%; white-space: normal; text-align: center; }
 }
+
+/* ══════════════════════════════════
+   СТАТИСТИКА ТЕСТОВ
+   ══════════════════════════════════ */
+#stats-container {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+#stats-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}
+
+#stats-container p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}

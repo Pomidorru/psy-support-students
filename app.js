@@ -192,12 +192,13 @@ function getEntries() {
   catch { return []; }
 }
 
-function saveEntry(text, moodScore) {
+function saveEntry(text, moodScore, stressScore) {
   const entries = getEntries();
   entries.unshift({
-    id:   Date.now(),
+    id: Date.now(),
     text,
     moodScore,
+    stressScore,
     date: new Date().toLocaleString('ru-RU', {
       day: '2-digit', month: 'short', year: 'numeric',
       hour: '2-digit', minute: '2-digit',
@@ -219,10 +220,23 @@ function moodColor(m) {
   return '#7A9E7E';               // хорошо
 }
 
+// Цвет бейджа стресса
+function stressColor(s) {
+  if (s <= 2) return '#7A9E7E';   // низкий стресс
+  if (s === 3) return '#D4A857';   // средний
+  return '#C97D7D';               // высокий стресс
+}
+
 // Эмодзи настроения
 function getMoodEmoji(m) {
   const emojis = ['☹️', '🙁', '😐', '🙂', '😊'];
   return emojis[m - 1] || '😐';
+}
+
+// Эмодзи стресса
+function getStressEmoji(s) {
+  const emojis = ['😌', '🙂', '😐', '😟', '😰'];
+  return emojis[s - 1] || '😐';
 }
 
 // Конвертация старого mood (1-10) в moodScore (1-5)
@@ -246,9 +260,13 @@ function renderEntries() {
 
   list.innerHTML = entries.map(e => {
     const moodScore = e.moodScore || convertMoodToScore(e.mood);
+    const stressScore = e.stressScore || 3; // дефолт для старых записей
     return `
     <div class="entry-card">
-      <div class="entry-mood-badge" style="background:${moodColor(moodScore)}">${getMoodEmoji(moodScore)}</div>
+      <div class="entry-badges">
+        <div class="entry-mood-badge" style="background:${moodColor(moodScore)}">${getMoodEmoji(moodScore)}</div>
+        <div class="entry-stress-badge" style="background:${stressColor(stressScore)}">${getStressEmoji(stressScore)}</div>
+      </div>
       <div class="entry-body">
         <div class="entry-text">${escapeHtml(e.text)}</div>
         <div class="entry-date">${e.date}</div>
@@ -261,6 +279,7 @@ function renderEntries() {
 
 function initDiary() {
   let currentMood = 3; // начальное настроение — средне
+  let currentStress = 3; // начальный стресс — средний
 
   const form = document.getElementById('diary-form');
   if (!form) return;
@@ -274,12 +293,21 @@ function initDiary() {
     });
   });
 
+  // Обработчики для шкалы стресса
+  document.querySelectorAll('#stress-selector .stress-emoji').forEach(emoji => {
+    emoji.addEventListener('click', () => {
+      document.querySelectorAll('#stress-selector .stress-emoji').forEach(e => e.classList.remove('selected'));
+      emoji.classList.add('selected');
+      currentStress = parseInt(emoji.dataset.stress);
+    });
+  });
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = document.getElementById('diary-text').value.trim();
     if (!text) { showToast('Напишите что-нибудь 🙏'); return; }
 
-    saveEntry(text, currentMood);
+    saveEntry(text, currentMood, currentStress);
 
     // Сброс формы
     document.getElementById('diary-text').value = '';
@@ -287,6 +315,10 @@ function initDiary() {
     document.querySelectorAll('#mood-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
     document.querySelector('#mood-selector .mood-emoji[data-mood="3"]').classList.add('selected');
     currentMood = 3;
+    // Сброс стресса к среднему
+    document.querySelectorAll('#stress-selector .stress-emoji').forEach(e => e.classList.remove('selected'));
+    document.querySelector('#stress-selector .stress-emoji[data-stress="3"]').classList.add('selected');
+    currentStress = 3;
     showToast('Запись сохранена ✓');
     renderEntries();
   });

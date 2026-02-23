@@ -329,7 +329,93 @@ input[type="range"]::-moz-range-thumb {
   color: var(--sage);
 }
 
-/* Шкала настроения */
+/* ══════════════════════════════════
+   ШКАЛЫ ОЦЕНКИ
+   ══════════════════════════════════ */
+
+/* Шкала со смайлами */
+#mood-emoji-selector, #stress-emoji-selector {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mood-emoji, .stress-emoji {
+  font-size: 2.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
+}
+
+[data-theme="dark"] .mood-emoji, [data-theme="dark"] .stress-emoji {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mood-emoji:hover, .stress-emoji:hover {
+  transform: scale(1.15);
+  background: rgba(122, 158, 126, 0.2);
+}
+
+.stress-emoji:hover {
+  background: rgba(201, 125, 125, 0.2);
+}
+
+.mood-emoji.selected, .stress-emoji.selected {
+  transform: scale(1.3);
+  border-color: var(--sage);
+  background: rgba(122, 158, 126, 0.3);
+}
+
+.stress-emoji.selected {
+  border-color: var(--rose);
+  background: rgba(201, 125, 125, 0.3);
+}
+
+/* Шкала с цифрами */
+#mood-scale-selector, #stress-scale-selector {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.mood-scale-btn, .stress-scale-btn {
+  flex: 1;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 10px 4px;
+  border: 2px solid var(--warm);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--text);
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.mood-scale-btn:hover, .stress-scale-btn:hover {
+  border-color: var(--sage);
+  transform: translateY(-2px);
+}
+
+.mood-scale-btn.selected, .stress-scale-btn.selected {
+  border-color: var(--sage);
+  background: rgba(122, 158, 126, 0.2);
+  font-weight: 700;
+}
+
+.stress-scale-btn:hover {
+  border-color: var(--rose);
+}
+
+.stress-scale-btn.selected {
+  border-color: var(--rose);
+  background: rgba(201, 125, 125, 0.2);
+}
+
+/* Старые стили (оставляем для совместимости) */
 #mood-selector, #stress-selector {
   display: flex;
   justify-content: space-between;
@@ -398,6 +484,25 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(122, 158, 126, 0.2);
+}
+
+.entry-mood-scale, .entry-stress-scale {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--warm);
+  border: 1px solid var(--sage);
+}
+
+.entry-stress-scale {
+  border-color: var(--rose);
 }
 
 .entry-body { flex: 1; }

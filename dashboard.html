@@ -55,23 +55,53 @@
         <textarea id="diary-text" rows="4" placeholder="Напишите любую мысль или ощущение..."></textarea>
       </div>
       <div class="form-group">
-        <label>Настроение:</label>
-        <div id="mood-selector">
-          <button type="button" class="mood-btn" data-mood="1">1 ☹️</button>
-          <button type="button" class="mood-btn" data-mood="2">2 🙁</button>
-          <button type="button" class="mood-btn selected" data-mood="3">3 😐</button>
-          <button type="button" class="mood-btn" data-mood="4">4 🙂</button>
-          <button type="button" class="mood-btn" data-mood="5">5 😊</button>
+        <label>Настроение (смайлы):</label>
+        <div id="mood-emoji-selector">
+          <span class="mood-emoji" data-mood="1">☹️</span>
+          <span class="mood-emoji" data-mood="2">🙁</span>
+          <span class="mood-emoji selected" data-mood="3">😐</span>
+          <span class="mood-emoji" data-mood="4">🙂</span>
+          <span class="mood-emoji" data-mood="5">😊</span>
         </div>
       </div>
       <div class="form-group">
-        <label>Уровень стресса:</label>
-        <div id="stress-selector">
-          <button type="button" class="stress-btn" data-stress="1">1 😌</button>
-          <button type="button" class="stress-btn" data-stress="2">2 🙂</button>
-          <button type="button" class="stress-btn selected" data-stress="3">3 😐</button>
-          <button type="button" class="stress-btn" data-stress="4">4 😟</button>
-          <button type="button" class="stress-btn" data-stress="5">5 😰</button>
+        <label>Оценка настроения (1-10):</label>
+        <div id="mood-scale-selector">
+          <button type="button" class="mood-scale-btn" data-mood="1">1</button>
+          <button type="button" class="mood-scale-btn" data-mood="2">2</button>
+          <button type="button" class="mood-scale-btn" data-mood="3">3</button>
+          <button type="button" class="mood-scale-btn" data-mood="4">4</button>
+          <button type="button" class="mood-scale-btn" data-mood="5">5</button>
+          <button type="button" class="mood-scale-btn selected" data-mood="6">6</button>
+          <button type="button" class="mood-scale-btn" data-mood="7">7</button>
+          <button type="button" class="mood-scale-btn" data-mood="8">8</button>
+          <button type="button" class="mood-scale-btn" data-mood="9">9</button>
+          <button type="button" class="mood-scale-btn" data-mood="10">10</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Уровень стресса (смайлы):</label>
+        <div id="stress-emoji-selector">
+          <span class="stress-emoji" data-stress="1">😌</span>
+          <span class="stress-emoji" data-stress="2">🙂</span>
+          <span class="stress-emoji selected" data-stress="3">😐</span>
+          <span class="stress-emoji" data-stress="4">😟</span>
+          <span class="stress-emoji" data-stress="5">😰</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Оценка стресса (1-10):</label>
+        <div id="stress-scale-selector">
+          <button type="button" class="stress-scale-btn" data-stress="1">1</button>
+          <button type="button" class="stress-scale-btn" data-stress="2">2</button>
+          <button type="button" class="stress-scale-btn" data-stress="3">3</button>
+          <button type="button" class="stress-scale-btn" data-stress="4">4</button>
+          <button type="button" class="stress-scale-btn" data-stress="5">5</button>
+          <button type="button" class="stress-scale-btn selected" data-stress="6">6</button>
+          <button type="button" class="stress-scale-btn" data-stress="7">7</button>
+          <button type="button" class="stress-scale-btn" data-stress="8">8</button>
+          <button type="button" class="stress-scale-btn" data-stress="9">9</button>
+          <button type="button" class="stress-scale-btn" data-stress="10">10</button>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Сохранить</button>

@@ -192,13 +192,15 @@ function getEntries() {
   catch { return []; }
 }
 
-function saveEntry(text, moodScore, stressScore) {
+function saveEntry(text, moodEmoji, moodScale, stressEmoji, stressScale) {
   const entries = getEntries();
   entries.unshift({
     id: Date.now(),
     text,
-    moodScore,
-    stressScore,
+    moodEmoji,
+    moodScale,
+    stressEmoji,
+    stressScale,
     date: new Date().toLocaleString('ru-RU', {
       day: '2-digit', month: 'short', year: 'numeric',
       hour: '2-digit', minute: '2-digit',
@@ -259,13 +261,18 @@ function renderEntries() {
   }
 
   list.innerHTML = entries.map(e => {
-    const moodScore = e.moodScore || convertMoodToScore(e.mood);
-    const stressScore = e.stressScore || 3; // дефолт для старых записей
+    const moodEmoji = e.moodEmoji || 3;
+    const moodScale = e.moodScale || 6;
+    const stressEmoji = e.stressEmoji || 3;
+    const stressScale = e.stressScale || 6;
+    
     return `
     <div class="entry-card">
       <div class="entry-badges">
-        <div class="entry-mood-badge" style="background:${moodColor(moodScore)}">${getMoodEmoji(moodScore)}</div>
-        <div class="entry-stress-badge" style="background:${stressColor(stressScore)}">${getStressEmoji(stressScore)}</div>
+        <div class="entry-mood-badge" title="Настроение: ${getMoodEmoji(moodEmoji)}">${getMoodEmoji(moodEmoji)}</div>
+        <div class="entry-mood-scale" title="Оценка: ${moodScale}">${moodScale}</div>
+        <div class="entry-stress-badge" title="Стресс: ${getStressEmoji(stressEmoji)}">${getStressEmoji(stressEmoji)}</div>
+        <div class="entry-stress-scale" title="Оценка: ${stressScale}">${stressScale}</div>
       </div>
       <div class="entry-body">
         <div class="entry-text">${escapeHtml(e.text)}</div>
@@ -278,27 +285,47 @@ function renderEntries() {
 }
 
 function initDiary() {
-  let currentMood = 3; // начальное настроение — средне
-  let currentStress = 3; // начальный стресс — средний
+  let currentMoodEmoji = 3;    // выбранный смайл (1-5)
+  let currentMoodScale = 6;    // выбранная цифра (1-10)
+  let currentStressEmoji = 3;  // выбранный смайл стресса (1-5)
+  let currentStressScale = 6;  // выбранная цифра стресса (1-10)
 
   const form = document.getElementById('diary-form');
   if (!form) return;
 
-  // Обработчики для шкалы настроения
-  document.querySelectorAll('#mood-selector .mood-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#mood-selector .mood-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      currentMood = parseInt(btn.dataset.mood);
+  // Обработчики для шкалы настроения (смайлы)
+  document.querySelectorAll('#mood-emoji-selector .mood-emoji').forEach(emoji => {
+    emoji.addEventListener('click', () => {
+      document.querySelectorAll('#mood-emoji-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
+      emoji.classList.add('selected');
+      currentMoodEmoji = parseInt(emoji.dataset.mood);
     });
   });
 
-  // Обработчики для шкалы стресса
-  document.querySelectorAll('#stress-selector .stress-btn').forEach(btn => {
+  // Обработчики для шкалы настроения (цифры)
+  document.querySelectorAll('#mood-scale-selector .mood-scale-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('#stress-selector .stress-btn').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#mood-scale-selector .mood-scale-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      currentStress = parseInt(btn.dataset.stress);
+      currentMoodScale = parseInt(btn.dataset.mood);
+    });
+  });
+
+  // Обработчики для шкалы стресса (смайлы)
+  document.querySelectorAll('#stress-emoji-selector .stress-emoji').forEach(emoji => {
+    emoji.addEventListener('click', () => {
+      document.querySelectorAll('#stress-emoji-selector .stress-emoji').forEach(e => e.classList.remove('selected'));
+      emoji.classList.add('selected');
+      currentStressEmoji = parseInt(emoji.dataset.stress);
+    });
+  });
+
+  // Обработчики для шкалы стресса (цифры)
+  document.querySelectorAll('#stress-scale-selector .stress-scale-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#stress-scale-selector .stress-scale-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      currentStressScale = parseInt(btn.dataset.stress);
     });
   });
 
@@ -307,18 +334,31 @@ function initDiary() {
     const text = document.getElementById('diary-text').value.trim();
     if (!text) { showToast('Напишите что-нибудь 🙏'); return; }
 
-    saveEntry(text, currentMood, currentStress);
+    saveEntry(text, currentMoodEmoji, currentMoodScale, currentStressEmoji, currentStressScale);
 
     // Сброс формы
     document.getElementById('diary-text').value = '';
-    // Сброс настроения к среднему
-    document.querySelectorAll('#mood-selector .mood-btn').forEach(b => b.classList.remove('selected'));
-    document.querySelector('#mood-selector .mood-btn[data-mood="3"]').classList.add('selected');
-    currentMood = 3;
-    // Сброс стресса к среднему
-    document.querySelectorAll('#stress-selector .stress-btn').forEach(b => b.classList.remove('selected'));
-    document.querySelector('#stress-selector .stress-btn[data-stress="3"]').classList.add('selected');
-    currentStress = 3;
+    
+    // Сброс настроения (смайлы) к среднему
+    document.querySelectorAll('#mood-emoji-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
+    document.querySelector('#mood-emoji-selector .mood-emoji[data-mood="3"]').classList.add('selected');
+    currentMoodEmoji = 3;
+    
+    // Сброс настроения (цифры) к 6
+    document.querySelectorAll('#mood-scale-selector .mood-scale-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelector('#mood-scale-selector .mood-scale-btn[data-mood="6"]').classList.add('selected');
+    currentMoodScale = 6;
+    
+    // Сброс стресса (смайлы) к среднему
+    document.querySelectorAll('#stress-emoji-selector .stress-emoji').forEach(e => e.classList.remove('selected'));
+    document.querySelector('#stress-emoji-selector .stress-emoji[data-stress="3"]').classList.add('selected');
+    currentStressEmoji = 3;
+    
+    // Сброс стресса (цифры) к 6
+    document.querySelectorAll('#stress-scale-selector .stress-scale-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelector('#stress-scale-selector .stress-scale-btn[data-stress="6"]').classList.add('selected');
+    currentStressScale = 6;
+    
     showToast('Запись сохранена ✓');
     renderEntries();
   });

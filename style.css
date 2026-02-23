@@ -336,54 +336,32 @@ input[type="range"]::-moz-range-thumb {
   gap: 10px;
 }
 
-.emoji-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.emoji-label {
-  font-size: 0.8rem;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.mood-emoji, .stress-emoji {
-  font-size: 2rem;
+.mood-btn, .stress-btn {
+  font-size: 1.2rem;
   cursor: pointer;
-  padding: 8px;
+  padding: 10px 12px;
+  border: 2px solid var(--warm);
   border-radius: 8px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  color: var(--text);
+  transition: all 0.2s ease;
+  font-weight: 600;
 }
 
-[data-theme="dark"] .mood-emoji, [data-theme="dark"] .stress-emoji {
-  background: rgba(255, 255, 255, 0.05);
+.mood-btn:hover, .stress-btn:hover {
+  transform: scale(1.05);
+  border-color: var(--sage);
 }
 
-.mood-emoji:hover, .stress-emoji:hover {
+.mood-btn.selected, .stress-btn.selected {
+  border-color: var(--sage);
+  background: rgba(122, 158, 126, 0.1);
   transform: scale(1.1);
 }
 
-.mood-emoji:hover {
-  background: rgba(122, 158, 126, 0.2);
-}
-
-.stress-emoji:hover {
-  background: rgba(201, 125, 125, 0.2);
-}
-
-.mood-emoji.selected, .stress-emoji.selected {
-  transform: scale(1.2);
-}
-
-.mood-emoji.selected {
-  background: rgba(122, 158, 126, 0.3);
-}
-
-.stress-emoji.selected {
-  background: rgba(201, 125, 125, 0.3);
+.stress-btn.selected {
+  border-color: var(--rose);
+  background: rgba(201, 125, 125, 0.1);
 }
 
 /* ══════════════════════════════════

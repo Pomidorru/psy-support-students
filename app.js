@@ -19,24 +19,29 @@ const STORAGE_KEYS = {
 // YouTube-медитации (замените id при необходимости)
 const MEDITATIONS_CATEGORIES = [
   {
-    categoryTitle: 'Для спокойствия и снятия стресса',
+    categoryTitle: 'Для снятия стресса и понижения тревоги',
     items: [
-      { id: 'inpok4MKVLM', title: 'Медитация для снятия стресса', duration: '10 мин' },
-      { id: 'aXItOY0sLRY', title: 'Расслабление перед сном', duration: '15 мин' },
-      { id: 'ZToicYcHIOU', title: 'Дыхательная практика 4-7-8', duration: '5 мин' }
+      { id: 'inpok4MKVLM', title: 'Медитация для снятия стресса', duration: '5 мин' },
+      { id: 'ZToicYcHIOU', title: 'Дыхательная практика 4-7-8', duration: '10 мин' }
     ]
   },
   {
-    categoryTitle: 'Для сосредоточения и продуктивности',
+    categoryTitle: 'Для улучшения сна',
     items: [
-      { id: 'O-6f5wQXSu8', title: 'Медитация осознанности', duration: '8 мин' },
-      { id: '1ZYbU82GVz4', title: 'Концентрация и спокойствие', duration: '12 мин' }
+      { id: 'aXItOY0sLRY', title: 'Расслабление перед сном', duration: '10 мин' }
+    ]
+  },
+  {
+    categoryTitle: 'Успокайвающие звуки',
+    items: [
+      { id: 'Zhq_ThHG2gA', title: 'Шум дождя по старой крыше', duration: '10 мин' },
+      { id: '1ZYbU82GVz4', title: 'Концентрация и спокойствие', duration: '3 часа' }
     ]
   },
   {
     categoryTitle: 'Быстрые практики',
     items: [
-      { id: 'dQw4w9WgXcQ', title: 'Минутка тишины', duration: '1 мин' }
+      { id: 'dQw4w9WgXcQ', title: 'Минутка тишины', duration: '3 мин' }
     ]
   }
 ];

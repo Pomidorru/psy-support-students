@@ -257,6 +257,7 @@ function renderEntries() {
   const entries = getEntries();
   if (!entries.length) {
     list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;">Записей пока нет. Напишите первую! 🌱</p>';
+    calculateMoodSum();
     return;
   }
 
@@ -282,6 +283,22 @@ function renderEntries() {
         style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:4px 8px;flex-shrink:0;">✕</button>
     </div>
   `}).join('');
+
+  calculateMoodSum();
+}
+
+function calculateMoodSum() {
+  const entries = getEntries();
+  const sum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
+  const avg = entries.length > 0 ? (sum / entries.length).toFixed(1) : 0;
+  const moodSumEl = document.getElementById('mood-sum');
+  const moodAvgEl = document.getElementById('mood-avg');
+  if (moodSumEl) {
+    moodSumEl.textContent = sum;
+  }
+  if (moodAvgEl) {
+    moodAvgEl.textContent = `Среднее: ${avg}`;
+  }
 }
 
 function initDiary() {

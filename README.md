@@ -58,19 +58,6 @@ mental-health-app/
 
 ## Разработка
 
-### Добавление Firebase
-Для полноценной работы замените LocalStorage на Firebase:
-
-1. Создайте проект в Firebase Console
-2. Добавьте Firebase SDK в HTML:
-```html
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
-```
-
-3. Инициализируйте Firebase в JavaScript файлах
-
 ### Аудио контент
 - Замените placeholder аудио на реальные файлы
 - Рассмотрите использование внешних сервисов (YouTube, Spotify) для embed

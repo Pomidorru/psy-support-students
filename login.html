@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход — ПсиПоддержка</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">🌿 ПсиПоддержка</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Главная</a></li>
+    </ul>
+    <button id="theme-toggle" title="Переключить тему">🌙</button>
+  </div>
+</nav>
+
+<div class="container" style="max-width: 420px;">
+  <div class="card fade-in" style="margin-top: 40px;">
+
+    <div style="text-align:center; margin-bottom: 28px;">
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">🌿</div>
+      <h1 style="font-size:1.6rem;">Добро пожаловать</h1>
+      <p>Введите любое имя и пароль — аккаунт создастся автоматически.</p>
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="login-name">Ваше имя</label>
+        <input type="text" id="login-name" placeholder="Например: Аня" autocomplete="off" required />
+      </div>
+      <div class="form-group">
+        <label for="login-pass">Пароль</label>
+        <input type="password" id="login-pass" placeholder="Любой пароль" required />
+      </div>
+      <p style="font-size:0.8rem; text-align:center; margin-bottom:16px;">
+        Данные хранятся только в вашем браузере 🔒
+      </p>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Войти →</button>
+    </form>
+
+  </div>
+</div>
+
+</body>
+</html>

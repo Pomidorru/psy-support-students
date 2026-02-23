@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Дневник — ПсиПоддержка</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- app.js в <head> чтобы тема применилась до отрисовки (нет мигания) -->
+  <script src="app.js"></script>
+</head>
+<body>
+
+<!-- ══ НАВИГАЦИЯ ══ -->
+<nav>
+  <a class="nav-logo" href="index.html">🌿 ПсиПоддержка</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="dashboard.html">Дневник</a></li>
+      <li><a href="audio.html">Медитации</a></li>
+      <li><a id="logout-btn" href="#">Выйти</a></li>
+    </ul>
+    <button id="theme-toggle" title="Переключить тему">🌙</button>
+  </div>
+</nav>
+
+<!-- ══ ОСНОВНОЙ КОНТЕНТ ══ -->
+<div class="container">
+
+  <!-- Приветствие -->
+  <div style="margin-bottom: 28px;" class="fade-in">
+    <h1>Привет, <span id="user-name">...</span> 👋</h1>
+    <p>Как ты сегодня? Запишите своё состояние.</p>
+  </div>
+
+  <!-- ══ КАРТОЧКА: СРОЧНО УСПОКОИТЬСЯ ══ -->
+  <div class="card fade-in" style="text-align:center; background:var(--bg); border: 2px solid var(--rose); border-opacity: 0.4;">
+    <div style="font-size: 2rem; margin-bottom: 8px;">🆘</div>
+    <h2 style="color: var(--rose); font-size: 1.2rem;">Тревожно прямо сейчас?</h2>
+    <p style="font-size: 0.9rem; margin-bottom: 18px;">
+      Нажмите кнопку — покажем быстрый совет или включим медитацию.
+    </p>
+    <!-- emergency-btn → открывает модал (логика в app.js) -->
+    <button id="emergency-btn" class="btn btn-danger">
+      🆘 Срочно успокоиться
+    </button>
+  </div>
+
+  <!-- ══ ФОРМА ДНЕВНИКА ══ -->
+  <div class="card fade-in">
+    <h2>📓 Новая запись</h2>
+    <form id="diary-form">
+      <div class="form-group">
+        <label for="diary-text">Что происходит? Как вы себя чувствуете?</label>
+        <textarea id="diary-text" rows="4" placeholder="Напишите любую мысль или ощущение..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Настроение: <span id="mood-value">5</span> / 10</label>
+        <div class="slider-wrap">
+          <span>😞</span>
+          <input type="range" id="mood-slider" min="1" max="10" value="5" />
+          <span>😊</span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+  </div>
+
+  <!-- ══ СПИСОК ЗАПИСЕЙ + ЭКСПОРТ ══ -->
+  <div class="card fade-in">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="margin:0;">📅 Мои записи</h2>
+      <!-- export-btn → exportDiaryCSV() в app.js -->
+      <button id="export-btn" class="btn btn-export" style="font-size:0.85rem; padding:8px 18px;">
+        ⬇ Скачать CSV
+      </button>
+    </div>
+    <!-- Записи рендерятся через JS: renderEntries() -->
+    <div id="entries-list"></div>
+  </div>
+
+</div><!-- /container -->
+
+
+<!-- ══ МОДАЛЬНОЕ ОКНО "Срочно успокоиться" ══
+     Изначально скрыт (display:none в CSS).
+     Открывается через openModal() в app.js.
+     ══ -->
+<div id="calm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+
+  <div class="modal-box">
+
+    <!-- Кнопка закрытия × -->
+    <button id="modal-close-btn" class="modal-close" title="Закрыть">✕</button>
+
+    <!-- Заголовок — заполняется через JS -->
+    <h2 class="modal-title" id="modal-heading">Совет</h2>
+
+    <!-- Блок текстового совета (скрывается для аудио) -->
+    <div class="modal-tip" style="display:none;"></div>
+
+    <!-- Блок видео (скрывается для совета) -->
+    <div class="modal-video" style="display:none;"></div>
+
+    <!-- Кнопки действий -->
+    <div class="modal-actions">
+      <button id="modal-next-btn" class="btn btn-primary">Ещё совет 🔀</button>
+      <a href="audio.html" class="btn btn-outline">Все медитации</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

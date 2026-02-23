@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ПсиПоддержка — поддержка студентов</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- app.js вызывает applyTheme() немедленно — темы применяются до отрисовки -->
+  <script src="app.js"></script>
+</head>
+<body>
+
+<!-- ══ НАВИГАЦИЯ (одинакова на всех страницах) ══ -->
+<nav>
+  <a class="nav-logo" href="index.html">🌿 ПсиПоддержка</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="dashboard.html">Дневник</a></li>
+      <li><a href="audio.html">Медитации</a></li>
+      <li><a href="login.html">Войти</a></li>
+    </ul>
+    <!-- Переключатель темы: иконка проставляется через JS -->
+    <button id="theme-toggle" title="Переключить тему">🌙</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero fade-in">
+  <div class="emoji">🌱</div>
+  <h1>Место, где можно<br><em>выдохнуть</em></h1>
+  <p style="font-size:1.1rem; max-width:440px; margin: 0 auto 32px;">
+    Дневник эмоций, медитации и поддержка — всё в одном месте для студентов.
+  </p>
+  <a href="login.html" class="btn btn-primary">Начать →</a>
+</div>
+
+<!-- ══ ПРЕИМУЩЕСТВА ══ -->
+<div class="container">
+  <div class="card fade-in" style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <div style="flex:1; min-width:180px; text-align:center; padding:12px;">
+      <div style="font-size:2.2rem; margin-bottom:8px;">📓</div>
+      <h2 style="font-size:1rem;">Дневник эмоций</h2>
+      <p style="font-size:0.88rem;">Записывайте мысли и отслеживайте своё состояние каждый день.</p>
+    </div>
+
+    <div style="flex:1; min-width:180px; text-align:center; padding:12px;">
+      <div style="font-size:2.2rem; margin-bottom:8px;">🎧</div>
+      <h2 style="font-size:1rem;">Медитации</h2>
+      <p style="font-size:0.88rem;">Короткие аудио-практики для снятия тревоги и стресса.</p>
+    </div>
+
+    <div style="flex:1; min-width:180px; text-align:center; padding:12px;">
+      <div style="font-size:2.2rem; margin-bottom:8px;">🆘</div>
+      <h2 style="font-size:1rem;">Экстренная помощь</h2>
+      <p style="font-size:0.88rem;">Кнопка "Срочно успокоиться" запускает совет или медитацию мгновенно.</p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

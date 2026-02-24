@@ -349,65 +349,51 @@ function renderEntries() {
     </div>
   `}).join('');
 
-  calculateMoodStats();
+  updateMoodDisplay(); // Обновить среднее настроение
 }
 
-function calculateMoodStats() {
-  const entries = getEntries();
-  const moodAvgEl = document.getElementById('mood-avg');
-  const stressAvgEl = document.getElementById('stress-avg');
-  const moodMessageEl = document.getElementById('moodMessage');
-
-  if (entries.length === 0) {
-    if (moodAvgEl) moodAvgEl.textContent = '—';
-    if (stressAvgEl) stressAvgEl.textContent = 'Средний стресс: —';
-    if (moodMessageEl) moodMessageEl.textContent = 'Пока нет записей. Расскажи, как прошёл день? 📝';
-    return;
-  }
-
-  if (entries.length < 3) {
-    const moodSum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
-    const moodAvg = (moodSum / entries.length).toFixed(1);
-    if (moodAvgEl) {
-      moodAvgEl.textContent = moodAvg;
-      moodAvgEl.style.color = 'var(--primary)'; // нейтральный цвет
+// Функция для расчёта среднего настроения
+function calculateAverageMood() {
+  try {
+    let entries = getEntries(); // Используем существующую функцию для чтения
+    if (entries.length === 0) {
+      return { score: '—', message: 'Нет записей. Добавь первую!' };
     }
-    const stressSum = entries.reduce((total, entry) => total + (entry.stressScale || 0), 0);
-    const stressAvg = (stressSum / entries.length).toFixed(1);
-    if (stressAvgEl) stressAvgEl.textContent = `Средний стресс: ${stressAvg}`;
-    if (moodMessageEl) moodMessageEl.textContent = 'Мало записей для среднего (добавьте ещё!)';
-    return;
+    if (entries.length < 3) {
+      let sum = entries.reduce((acc, entry) => acc + (entry.moodScale || 0), 0);
+      let avg = (sum / entries.length).toFixed(1);
+      return { score: avg, message: 'Мало записей для среднего (добавьте ещё!)' };
+    }
+    let sum = entries.reduce((acc, entry) => acc + (entry.moodScale || 0), 0);
+    let avg = (sum / entries.length).toFixed(1);
+    let message;
+    if (avg >= 8) message = "Отличный уровень! Ты в гармонии 🌟 Продолжай!";
+    else if (avg >= 6) message = "Хорошо держишься 😊 Поддерживай позитивные привычки.";
+    else message = "Стоит позаботиться о себе ❤️ Попробуй медитацию или SOS.";
+    return { score: avg, message };
+  } catch (error) {
+    console.error('Ошибка чтения localStorage:', error);
+    return { score: 'Ошибка', message: 'Ошибка данных — очисти localStorage в консоли: localStorage.clear()' };
   }
+}
 
-  const moodSum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
-  const moodAvg = (moodSum / entries.length).toFixed(1);
-  const stressSum = entries.reduce((total, entry) => total + (entry.stressScale || 0), 0);
-  const stressAvg = (stressSum / entries.length).toFixed(1);
-
-  if (moodAvgEl) {
-    moodAvgEl.textContent = moodAvg;
-    // Цвет по значению
-    if (moodAvg >= 8) {
-      moodAvgEl.style.color = '#4CAF50'; // зелёный
-    } else if (moodAvg >= 5) {
-      moodAvgEl.style.color = '#FF9800'; // жёлтый
-    } else {
-      moodAvgEl.style.color = '#F44336'; // красный
+// Функция для обновления отображения среднего настроения
+function updateMoodDisplay() {
+  const result = calculateAverageMood();
+  const scoreEl = document.getElementById('mood-avg');
+  const messageEl = document.getElementById('moodMessage');
+  if (scoreEl) {
+    scoreEl.textContent = result.score;
+    // Удалить старые классы цвета
+    scoreEl.classList.remove('mood-green', 'mood-yellow', 'mood-red');
+    // Добавить класс по значению только если записей >=3 и score число
+    if (!isNaN(result.score) && getEntries().length >= 3) {
+      if (result.score >= 8) scoreEl.classList.add('mood-green');
+      else if (result.score >= 6) scoreEl.classList.add('mood-yellow');
+      else scoreEl.classList.add('mood-red');
     }
   }
-
-  if (stressAvgEl) stressAvgEl.textContent = `Средний стресс: ${stressAvg}`;
-
-  if (moodMessageEl) {
-    // Текст интерпретации
-    if (moodAvg >= 8) {
-      moodMessageEl.textContent = 'Отличный уровень! Ты в гармонии 🌟';
-    } else if (moodAvg >= 6) {
-      moodMessageEl.textContent = 'Хорошо, продолжай в том же духе 😊';
-    } else {
-      moodMessageEl.textContent = 'Стоит уделить внимание себе ❤️ Поговори с кем-то или послушай медитацию';
-    }
-  }
+  if (messageEl) messageEl.textContent = result.message;
 }
 
 function initDiary() {
@@ -487,7 +473,7 @@ function initDiary() {
     
     showToast('Запись сохранена ✓');
     renderEntries();
-    calculateMoodStats(); // Обновить статистику после сохранения
+    updateMoodDisplay(); // Обновить статистику после сохранения
   });
 
   renderEntries();

@@ -751,3 +751,8 @@ input[type="range"]::-moz-range-thumb {
     transform: translateY(0);
   }
 }
+
+/* Классы для цвета среднего настроения */
+.mood-green { color: #4CAF50 !important; } /* зелёный для >=8 */
+.mood-yellow { color: #FF9800 !important; } /* жёлтый для 6-7.9 */
+.mood-red { color: #F44336 !important; } /* красный для <6 */

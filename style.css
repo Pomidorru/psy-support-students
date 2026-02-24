@@ -8,34 +8,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
 
 /* ══════════════════════════════════
-   СВЕТЛАЯ ТЕМА — переменные по умолчанию
+   СВЕТЛАЯ ТЕМА — класс body.light
    ══════════════════════════════════ */
-:root {
+body.light {
   --sage:          #4caf50;
   --sage-light:    #81c784;
   --sage-hover:    #66bb6a;
 
-  --bg:            #e0f7e0;
-  --bg-card:       rgba(255, 255, 255, 0.85);
+  --bg:            #e8f5e9;
+  --bg-card:       rgba(255, 255, 255, 0.92);
   --bg-input:      #f1f8e9;
-  --warm:          #c8e6c9;
+  --warm:          #dcedc8;
 
   --text:          #1b5e20;
-  --muted:         #4caf50;
+  --muted:         #33691e;
   --white:         #ffffff;
 
   --rose:          #ff8a80;
   --rose-hover:    #ff5252;
 
-  --nav-bg:        rgba(255, 255, 255, 0.9);
-  --nav-border:    #81c784;
+  --nav-bg:        rgba(255, 255, 255, 0.95);
+  --nav-border:    #a5d6a7;
 
   --modal-overlay: rgba(0,0,0,0.3);
-  --modal-bg:      rgba(255, 255, 255, 0.95);
+  --modal-bg:      rgba(255, 255, 255, 0.98);
 
-  --shadow:        0 4px 24px rgba(76, 175, 132, 0.15);
+  --shadow:        0 4px 20px rgba(0, 100, 0, 0.08);
   --radius:        14px;
-  --transition:    background 0.8s ease, color 0.8s ease, border-color 0.8s ease;
+  --transition:    background 0.8s ease, color 0.6s ease, border-color 0.6s ease;
 }
 
 /* ══════════════════════════════════
@@ -71,11 +71,17 @@ body.dark {
    ГРАДИЕНТНЫЕ ФОНЫ
    ══════════════════════════════════ */
 body {
-  background: linear-gradient(135deg, #e0f7e0 0%, #c8e6c9 40%, #a5d6a7 70%, #e0f7e0 100%);
+  background: linear-gradient(135deg, #081a14 0%, #0f2a22 40%, #1e4538 70%, #081a14 100%);
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
   transition: background 0.8s ease;
+}
+
+body.light {
+  background: linear-gradient(135deg, #e8f5e9 0%, #dcedc8 40%, #c8e6c9 70%, #e8f5e9 100%);
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 body.dark {
@@ -117,7 +123,14 @@ nav {
 }
 
 /* Полупрозрачная навигация для градиента */
-[data-theme="dark"] nav {
+nav {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 240, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(76, 175, 80, 0.08);
+}
+
+body.dark nav {
   background: linear-gradient(135deg, rgba(8, 26, 20, 0.85) 0%, rgba(17, 47, 36, 0.85) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);

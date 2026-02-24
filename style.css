@@ -11,18 +11,23 @@
    СВЕТЛАЯ ТЕМА — класс body.light
    ══════════════════════════════════ */
 body.light {
-  --text:          #1b5e20;
-  --muted:         #2e7d32;
-  --sage:          #4caf50;
+  --text:          #1b5e20;  /* основной текст */
+  --muted:         #2e7d32;  /* заголовки */
+  --sage:          #4caf50;  /* акценты */
+  --link:          #388e3c;  /* ссылки */
+  --btn-bg:        #66bb6a;  /* кнопки */
+  --btn-hover:     #4caf50;  /* hover кнопок */
 }
 
 /* ══════════════════════════════════
    ТЁМНАЯ ТЕМА — класс body.dark
    ══════════════════════════════════ */
 body.dark {
-  --text:          #e0ffe0;
-  --muted:         #90ee90;
-  --sage:          #00ffaa;
+  --text:          #d0ffd0;  /* основной текст */
+  --muted:         #90ee90;  /* заголовки */
+  --sage:          #00ffaa;  /* акценты/ссылки */
+  --btn-bg:        #006d5b;  /* кнопки */
+  --btn-hover:     #00967e;  /* hover кнопок */
 }
 
 /* ══════════════════════════════════
@@ -33,17 +38,17 @@ body {
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
-  transition: background 0.8s ease, color 0.6s ease;
+  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
 }
 
 body.light {
-  background: linear-gradient(135deg, #e8f5e9 0%, #dcedc8 40%, #c8e6c9 70%, #e8f5e9 100%);
+  background: linear-gradient(135deg, #f0fff4 0%, #e6ffed 35%, #d4f7e0 65%, #f0fff4 100%) !important;
   background-attachment: fixed;
   background-size: cover;
 }
 
 body.dark {
-  background: linear-gradient(135deg, #081a14 0%, #0f2a22 40%, #1e4538 70%, #081a14 100%);
+  background: linear-gradient(135deg, #081a14 0%, #0f2a22 40%, #1e4538 70%, #081a14 100%) !important;
   background-attachment: fixed;
   background-size: cover;
 }
@@ -167,15 +172,15 @@ body.dark nav {
    КАРТОЧКИ
    ══════════════════════════════════ */
 .card {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid #a5d6a7;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #86efac;
   border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0, 100, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 100, 0, 0.1);
   padding: 28px;
   margin-bottom: 24px;
-  transition: background 0.8s ease, color 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
 }
 
 /* Контейнеры для светлой темы */
@@ -183,14 +188,31 @@ body.light .container,
 body.light main,
 body.light section,
 body.light .dashboard,
-body.light .content {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid #a5d6a7;
+body.light .content,
+body.light .card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #86efac;
   border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0, 100, 0, 0.08);
-  transition: background 0.8s ease, color 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 24px rgba(0, 100, 0, 0.1);
+  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
+}
+
+/* Контейнеры для тёмной темы */
+body.dark .card,
+body.dark .container,
+body.dark main,
+body.dark section,
+body.dark .dashboard,
+body.dark .content {
+  background: rgba(10, 30, 20, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 180, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
 }
 
 /* Контейнеры для тёмной темы */
@@ -225,36 +247,37 @@ body.dark section:hover,
 body.dark .dashboard:hover,
 body.dark .content:hover {
   transform: scale(1.02);
-  box-shadow: 0 8px 32px rgba(0, 255, 180, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
-}
-
-body.dark nav {
-  background: rgba(10, 30, 20, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 255, 180, 0.12);
 }
 
 nav {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid #a5d6a7;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid #86efac;
+  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
+}
+
+body.dark nav {
+  background: rgba(10, 30, 20, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 255, 180, 0.15);
 }
 
 body.dark .modal-box {
-  background: rgba(10, 30, 20, 0.85);
+  background: rgba(10, 30, 20, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 255, 180, 0.12);
+  border: 1px solid rgba(0, 255, 180, 0.15);
 }
 
 body.light .modal-box {
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid #a5d6a7;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #86efac;
 }
 
 /* ══════════════════════════════════
@@ -275,6 +298,8 @@ h2 {
 }
 
 p { color: var(--muted); margin-bottom: 12px; }
+a { color: var(--link); text-decoration: none; transition: color 0.7s ease; }
+a:hover { color: var(--sage); }
 
 /* ══════════════════════════════════
    КНОПКИ
@@ -294,13 +319,13 @@ p { color: var(--muted); margin-bottom: 12px; }
 .btn:active { transform: scale(0.97); }
 
 .btn-primary {
-  background: var(--sage);
+  background: var(--btn-bg);
   color: #fff;
 }
 .btn-primary:hover {
-  background: var(--sage-hover);
+  background: var(--btn-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(90,150,90,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Красная — экстренная помощь */

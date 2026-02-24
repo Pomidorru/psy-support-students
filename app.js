@@ -102,11 +102,11 @@ const CALM_OPTIONS = [
 // ─────────────────────────────────────────
 
 /** Определить начальную тему:
- *  1. localStorage → 2. prefers-color-scheme → 3. 'light' */
+ *  1. localStorage → 2. 'dark' по умолчанию */
 function getInitialTheme() {
   const saved = localStorage.getItem(STORAGE_KEYS.theme);
   if (saved === 'dark' || saved === 'light') return saved;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'dark'; // по умолчанию тёмная
 }
 
 /** Применить тему: класс на body, иконка на кнопке */

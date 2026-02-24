@@ -13,7 +13,7 @@
 const STORAGE_KEYS = {
   user:    'psy_user',      // имя пользователя
   entries: 'psy_entries',  // массив записей дневника
-  theme:   'psy_theme',    // 'light' | 'dark'
+  theme:   'theme',         // 'light' | 'dark'
 };
 
 // YouTube-медитации (замените id при необходимости)

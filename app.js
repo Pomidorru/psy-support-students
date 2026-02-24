@@ -1,9 +1,8 @@
 /* ===========================
    PSY SUPPORT — app.js
    Фичи:
-     1. Тёмная тема (localStorage + prefers-color-scheme)
-     2. Модал "Срочно успокоиться" (советы + аудио)
-     3. Экспорт дневника в CSV
+     1. Модал "Срочно успокоиться" (советы + аудио)
+     2. Экспорт дневника в CSV
    =========================== */
 
 // ─────────────────────────────────────────
@@ -13,7 +12,6 @@
 const STORAGE_KEYS = {
   user:    'psy_user',      // имя пользователя
   entries: 'psy_entries',  // массив записей дневника
-  theme:   'theme',         // 'light' | 'dark'
 };
 
 // YouTube-медитации (замените id при необходимости)
@@ -95,37 +93,6 @@ const CALM_OPTIONS = [
     id:      null,
   },
 ];
-
-
-// ─────────────────────────────────────────
-// ТЁМНАЯ ТЕМА
-// ─────────────────────────────────────────
-
-/** Определить начальную тему:
- *  1. localStorage → 2. 'dark' по умолчанию */
-function getInitialTheme() {
-  const saved = localStorage.getItem(STORAGE_KEYS.theme);
-  if (saved === 'dark' || saved === 'light') return saved;
-  return 'dark'; // по умолчанию тёмная
-}
-
-/** Применить тему: класс на body, иконка на кнопке */
-function applyTheme(theme) {
-  document.body.className = theme; // 'dark' or 'light'
-  const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-/** Переключить и сохранить */
-function toggleTheme() {
-  const current = document.body.className || 'light';
-  const next = current === 'dark' ? 'light' : 'dark';
-  localStorage.setItem(STORAGE_KEYS.theme, next);
-  applyTheme(next);
-}
-
-// Применяем тему ДО загрузки DOM — убирает "мигание" белого фона
-applyTheme(getInitialTheme());
 
 
 // ─────────────────────────────────────────
@@ -688,13 +655,6 @@ function initDashboard() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Обновить иконку кнопки после загрузки DOM
-  applyTheme(getInitialTheme());
-
-  // Переключатель темы (в nav)
-  const themeBtn = document.getElementById('theme-toggle');
-  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
-
   // Кнопка выхода
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) logoutBtn.addEventListener('click', (e) => { e.preventDefault(); logout(); });
@@ -708,25 +668,3 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'dashboard.html') { initDashboard(); renderWeeklyStats(); }
   if (page === 'audio.html')     { requireAuth(); initAudio(); }
 });
-
-/* ═════════════════════════════════════════
-   ПЕРЕКЛЮЧАТЕЛЬ ТЕМ (VANILLA JS)
-   ═════════════════════════════════════════ */
-function setTheme(theme) {
-  document.body.classList.remove('dark', 'light');
-  document.body.classList.add(theme);
-  localStorage.setItem('theme', theme);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('theme') || 'dark'; // тёмная по дефолту
-  setTheme(saved);
-});
-
-const themeToggle = document.querySelector('#theme-toggle');
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    const current = document.body.classList.contains('dark') ? 'light' : 'dark';
-    setTheme(current);
-  });
-}

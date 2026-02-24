@@ -1,8 +1,9 @@
 /* ===========================
    PSY SUPPORT — app.js
    Фичи:
-     1. Модал "Срочно успокоиться" (советы + аудио)
-     2. Экспорт дневника в CSV
+     1. Тёмная тема (localStorage + prefers-color-scheme)
+     2. Модал "Срочно успокоиться" (советы + аудио)
+     3. Экспорт дневника в CSV
    =========================== */
 
 // ─────────────────────────────────────────
@@ -12,6 +13,7 @@
 const STORAGE_KEYS = {
   user:    'psy_user',      // имя пользователя
   entries: 'psy_entries',  // массив записей дневника
+  theme:   'psy_theme',    // 'light' | 'dark'
 };
 
 // YouTube-медитации (замените id при необходимости)
@@ -93,6 +95,36 @@ const CALM_OPTIONS = [
     id:      null,
   },
 ];
+
+
+// ─────────────────────────────────────────
+// ТЁМНАЯ ТЕМА
+// ─────────────────────────────────────────
+
+/** Определить начальную тему:
+ *  1. localStorage → 2. prefers-color-scheme → 3. 'light' */
+function getInitialTheme() {
+  const saved = localStorage.getItem(STORAGE_KEYS.theme);
+  if (saved === 'dark' || saved === 'light') return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+/** Применить тему: data-theme на <html>, иконка на кнопке */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+/** Переключить и сохранить */
+function toggleTheme() {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(STORAGE_KEYS.theme, next);
+  applyTheme(next);
+}
+
+// Применяем тему ДО загрузки DOM — убирает "мигание" белого фона
+applyTheme(getInitialTheme());
 
 
 // ─────────────────────────────────────────
@@ -654,6 +686,13 @@ function initDashboard() {
 // ─────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Обновить иконку кнопки после загрузки DOM
+  applyTheme(getInitialTheme());
+
+  // Переключатель темы (в nav)
+  const themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
 
   // Кнопка выхода
   const logoutBtn = document.getElementById('logout-btn');

@@ -109,16 +109,17 @@ function getInitialTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-/** Применить тему: data-theme на <html>, иконка на кнопке */
+/** Применить тему: класс на body, иконка на кнопке */
 function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
+  document.body.className = theme; // 'dark' or 'light'
   const btn = document.getElementById('theme-toggle');
   if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
 }
 
 /** Переключить и сохранить */
 function toggleTheme() {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  const current = document.body.className || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
   localStorage.setItem(STORAGE_KEYS.theme, next);
   applyTheme(next);
 }

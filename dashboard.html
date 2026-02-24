@@ -114,6 +114,50 @@
     </form>
   </div>
 
+  <!-- ===== SOS SECTION ===== -->
+<section class="sos-section">
+  <h2>🆘 Экстренная помощь</h2>
+  <p>Чувствуешь тревогу или стресс? Нажми — и мы поможем успокоиться прямо сейчас.</p>
+  <button class="sos-btn" onclick="showSos()">❤️ Срочно успокоиться</button>
+</section>
+
+<!-- ===== SOS МОДУЛЬ ===== -->
+<div class="sos-modal" id="sosModal" role="dialog" aria-modal="true" aria-label="Экстренная помощь">
+  <div class="sos-modal__inner">
+    <button class="sos-modal__close" onclick="hideSos()" aria-label="Закрыть">✕</button>
+
+    <h2>🌿 Дыши вместе со мной</h2>
+
+    <!-- Вариант 1 (активный): дыхательное упражнение -->
+    <div class="sos-breathing">
+      <div class="sos-breathing__circle" id="breathingCircle"></div>
+      <p class="sos-breathing__label" id="breathingLabel">Нажми «Начать»</p>
+      <p class="sos-breathing__scheme">Вдох 4 сек → Задержка 4 сек → Выдох 4 сек</p>
+      <button class="sos-breathing__start" id="breathingBtn" onclick="startBreathing()">▶ Начать</button>
+    </div>
+
+    <!-- Аудио (если файл meditation.mp3 есть в репозитории) -->
+    <div class="sos-audio">
+      <p>🎵 Или послушай медитацию:</p>
+      <audio controls>
+        <source src="assets/meditation.mp3" type="audio/mpeg">
+        <!-- Если файла нет — браузер покажет сообщение ниже -->
+        <span>Аудио недоступно — просто подышим ❤️</span>
+      </audio>
+    </div>
+
+    <!-- Вариант 3 (закомментирован): случайный совет
+    <div class="sos-tip" id="sosTip"></div>
+    <button onclick="showRandomTip()">🎲 Другой совет</button>
+    -->
+
+    <!-- Вариант 2 (закомментирован): ссылка на sos.html
+    <a href="sos.html" class="sos-link">Открыть страницу помощи →</a>
+    -->
+
+  </div>
+</div>
+
   <!-- ══ СПИСОК ЗАПИСЕЙ + ЭКСПОРТ ══ -->
   <div class="card fade-in">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;">

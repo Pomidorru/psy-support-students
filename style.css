@@ -72,7 +72,7 @@
    ГРАДИЕНТНЫЙ ФОН ДЛЯ ТЁМНОЙ ТЕМЫ
    ══════════════════════════════════ */
 [data-theme="dark"] body {
-  background: linear-gradient(to bottom right, #F0F4EF, #8FB993, #DCE8E2);
+  background: linear-gradient(to bottom right, #0F2A1F, #1F4D3A, #0C2218);
   background-attachment: fixed;
   background-size: cover;
   transition: background 0.8s ease;

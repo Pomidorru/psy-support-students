@@ -402,7 +402,7 @@ function initDiary() {
   let currentStressEmoji = 3;  // выбранный смайл стресса (1-5)
   let currentStressScale = 6;  // выбранная цифра стресса (1-10)
 
-  const form = document.getElementById('diary-form');
+  const form = document.getElementById('diaryForm');
   if (!form) return;
 
   // Обработчики для шкалы настроения (смайлы)

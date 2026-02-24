@@ -55,7 +55,7 @@
   <!-- ══ ФОРМА ДНЕВНИКА ══ -->
   <div class="card fade-in">
     <h2>📓 Новая запись</h2>
-    <form id="diary-form">
+    <form id="diaryForm">
       <div class="form-group">
         <label for="diary-text">Что происходит? Как вы себя чувствуете?</label>
         <textarea id="diary-text" rows="4" placeholder="Напишите любую мысль или ощущение..."></textarea>
@@ -126,7 +126,7 @@
     <!-- Статистика -->
     <div id="stats-summary" style="margin-bottom: 20px; padding: 16px; background: var(--bg-secondary); border-radius: 8px; text-align: center;">
       <h3 style="margin: 0 0 10px 0; font-size: 1.1rem;">📊 Среднее настроение за весь период</h3>
-      <div id="mood-avg" style="font-size: 2rem; font-weight: bold; color: var(--primary);">-</div>
+      <div style="font-size: 2rem; font-weight: bold; color: var(--primary);"><span id="avgScore">-</span></div>
       <div style="font-size: 0.9rem; color: var(--muted);">Средняя оценка настроения (1-10)</div>
       <p id="moodMessage" style="font-size: 0.9rem; margin: 8px 0 0 0; color: var(--text);"></p>
       <div id="stress-avg" style="font-size: 1.5rem; margin-top: 8px; color: var(--text);">Средний стресс: -</div>
@@ -166,6 +166,8 @@
 
   </div>
 </div>
+
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>

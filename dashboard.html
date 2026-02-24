@@ -124,37 +124,5 @@
 
 </div><!-- /container -->
 
-
-<!-- ══ МОДАЛЬНОЕ ОКНО "Срочно успокоиться" ══
-     Изначально скрыт (display:none в CSS).
-     Открывается через openModal() в app.js.
-     ══ -->
-<div id="calm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
-
-  <div class="modal-box">
-
-    <!-- Кнопка закрытия × -->
-    <button id="modal-close-btn" class="modal-close" title="Закрыть">✕</button>
-
-    <!-- Заголовок — заполняется через JS -->
-    <h2 class="modal-title" id="modal-heading">Совет</h2>
-
-    <!-- Блок текстового совета (скрывается для аудио) -->
-    <div class="modal-tip" style="display:none;"></div>
-
-    <!-- Блок видео (скрывается для совета) -->
-    <div class="modal-video" style="display:none;"></div>
-
-    <!-- Кнопки действий -->
-    <div class="modal-actions">
-      <button id="modal-next-btn" class="btn btn-primary">Ещё совет 🔀</button>
-      <a href="audio.html" class="btn btn-outline">Все медитации</a>
-    </div>
-
-  </div>
-</div>
-
-<script src="js/dashboard.js"></script>
-
 </body>
 </html>

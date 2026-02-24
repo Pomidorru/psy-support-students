@@ -1,3 +1,11 @@
+/* ===========================
+   PSY SUPPORT — app.js
+   Фичи:
+     1. Тёмная тема (localStorage + prefers-color-scheme)
+     2. Модал "Срочно успокоиться" (советы + аудио)
+     3. Экспорт дневника в CSV
+   =========================== */
+
 // ─────────────────────────────────────────
 // ДАННЫЕ
 // ─────────────────────────────────────────
@@ -5,7 +13,7 @@
 const STORAGE_KEYS = {
   user:    'psy_user',      // имя пользователя
   entries: 'psy_entries',  // массив записей дневника
-  theme:   'psy_theme',    // 'light' | 'dark'
+  theme:   'theme',         // 'light' | 'dark'
 };
 
 // YouTube-медитации (замените id при необходимости)
@@ -38,6 +46,56 @@ const MEDITATIONS_CATEGORIES = [
   }
 ];
 
+// Плоский массив всех медитаций для случайного выбора
+const MEDITATIONS = MEDITATIONS_CATEGORIES.flatMap(category => category.items);
+
+// Варианты для модала "Срочно":
+//   type 'tip'   — текстовый совет (content — HTML)
+//   type 'audio' — случайное видео из MEDITATIONS
+const CALM_OPTIONS = [
+  {
+    type:    'tip',
+    title:   '🫁 Дыхание 4-7-8',
+    content: `Вдох через нос — <strong>4 секунды</strong>.<br>
+              Задержи дыхание — <strong>7 секунд</strong>.<br>
+              Медленный выдох через рот — <strong>8 секунд</strong>.<br><br>
+              Повтори 3–4 раза. Активирует парасимпатическую нервную систему.`,
+  },
+  {
+    type:    'tip',
+    title:   '👀 Правило 5-4-3-2-1',
+    content: `Назови вслух или про себя:<br>
+              • <strong>5</strong> вещей, которые ты видишь<br>
+              • <strong>4</strong> вещи, которые можешь потрогать<br>
+              • <strong>3</strong> звука, которые слышишь<br>
+              • <strong>2</strong> запаха (или вспомни любимые)<br>
+              • <strong>1</strong> вкус<br><br>
+              Это возвращает внимание в настоящий момент.`,
+  },
+  {
+    type:    'tip',
+    title:   '✊ Прогрессивное расслабление',
+    content: `Сожми кулаки изо всех сил — <strong>5 секунд</strong>, резко разожми.<br>
+              Почувствуй тепло и расслабление в руках.<br><br>
+              Плечи: подними к ушам — <strong>5 секунд</strong>, резко опусти.<br><br>
+              Ноги: напряги мышцы — <strong>5 секунд</strong>, расслабь.<br>
+              Напряжение уходит с каждым выдохом.`,
+  },
+  {
+    type:    'tip',
+    title:   '❄️ Холодная вода',
+    content: `Подержи <strong>запястья под холодной водой</strong> 30–60 секунд.<br><br>
+              Или умойся холодной водой.<br><br>
+              Это активирует рефлекс ныряльщика: ЧСС снижается,
+              уровень тревоги падает буквально за минуту.`,
+  },
+  {
+    type:    'audio', // id выбирается случайно из MEDITATIONS
+    title:   '🎧 Медитация',
+    id:      null,
+  },
+];
+
 
 // ─────────────────────────────────────────
 // ТЁМНАЯ ТЕМА
@@ -51,16 +109,17 @@ function getInitialTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-/** Применить тему: data-theme на <html>, иконка на кнопке */
+/** Применить тему: класс на body, иконка на кнопке */
 function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
+  document.body.className = theme; // 'dark' or 'light'
   const btn = document.getElementById('theme-toggle');
   if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
 }
 
 /** Переключить и сохранить */
 function toggleTheme() {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  const current = document.body.className || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
   localStorage.setItem(STORAGE_KEYS.theme, next);
   applyTheme(next);
 }
@@ -447,7 +506,7 @@ function openModal(option) {
     const videoId = option.id || MEDITATIONS[Math.floor(Math.random() * MEDITATIONS.length)].id;
     videoBlock.innerHTML   = `
       <iframe
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0"
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
         title="Медитация">

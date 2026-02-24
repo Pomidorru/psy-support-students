@@ -39,6 +39,19 @@
     <!-- Данные вставляются через JS -->
   </div>
 
+  <!-- ══ КАРТОЧКА: СРОЧНО УСПОКОИТЬСЯ ══ -->
+  <div class="card fade-in" style="text-align:center; background:var(--bg); border: 2px solid var(--rose); border-opacity: 0.4;">
+    <div style="font-size: 2rem; margin-bottom: 8px;">🆘</div>
+    <h2 style="color: var(--rose); font-size: 1.2rem;">Тревожно прямо сейчас?</h2>
+    <p style="font-size: 0.9rem; margin-bottom: 18px;">
+      Нажмите кнопку — покажем быстрый совет или включим медитацию.
+    </p>
+    <!-- emergency-btn → открывает модал (логика в app.js) -->
+    <button id="emergency-btn" class="btn btn-danger">
+      🆘 Срочно успокоиться
+    </button>
+  </div>
+
   <!-- ══ ФОРМА ДНЕВНИКА ══ -->
   <div class="card fade-in">
     <h2>📓 Новая запись</h2>
@@ -123,6 +136,38 @@
   </div>
 
 </div><!-- /container -->
+
+
+<!-- ══ МОДАЛЬНОЕ ОКНО "Срочно успокоиться" ══
+     Изначально скрыт (display:none в CSS).
+     Открывается через openModal() в app.js.
+     ══ -->
+<div id="calm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+
+  <div class="modal-box">
+
+    <!-- Кнопка закрытия × -->
+    <button id="modal-close-btn" class="modal-close" title="Закрыть">✕</button>
+
+    <!-- Заголовок — заполняется через JS -->
+    <h2 class="modal-title" id="modal-heading">Совет</h2>
+
+    <!-- Блок текстового совета (скрывается для аудио) -->
+    <div class="modal-tip" style="display:none;"></div>
+
+    <!-- Блок видео (скрывается для совета) -->
+    <div class="modal-video" style="display:none;"></div>
+
+    <!-- Кнопки действий -->
+    <div class="modal-actions">
+      <button id="modal-next-btn" class="btn btn-primary">Ещё совет 🔀</button>
+      <a href="audio.html" class="btn btn-outline">Все медитации</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>

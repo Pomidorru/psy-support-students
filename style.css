@@ -72,9 +72,10 @@
    ГРАДИЕНТНЫЙ ФОН ДЛЯ ТЁМНОЙ ТЕМЫ
    ══════════════════════════════════ */
 [data-theme="dark"] body, [data-theme="dark"] html {
-  background: linear-gradient(to bottom right, #1e1b4b 0%, #312e81 40%, #4338ca 70%, #7c3aed 100%);
+  background: linear-gradient(135deg, #081a14 0%, #112f24 30%, #1e4a3a 70%, #0c231c 100%);
   background-attachment: fixed;
   background-size: cover;
+  min-height: 100vh;
   transition: background 1.2s ease;
 }
 
@@ -113,10 +114,10 @@ nav {
 
 /* Полупрозрачная навигация для градиента */
 [data-theme="dark"] nav {
-  background: rgba(15, 23, 42, 0.8);
+  background: linear-gradient(135deg, rgba(8, 26, 20, 0.85) 0%, rgba(17, 47, 36, 0.85) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 255, 180, 0.08);
 }
 
 .nav-logo {
@@ -211,11 +212,16 @@ nav {
 }
 
 /* Полупрозрачные подложки для градиентного фона */
-[data-theme="dark"] .card {
-  background: rgba(15, 23, 42, 0.75);
+[data-theme="dark"] .card,
+[data-theme="dark"] .container,
+[data-theme="dark"] main,
+[data-theme="dark"] section,
+[data-theme="dark"] .dashboard,
+[data-theme="dark"] .content {
+  background: rgba(10, 20, 18, 0.78);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 180, 0.08);
   border-radius: 14px;
 }
 
@@ -622,10 +628,10 @@ input[type="range"]::-moz-range-thumb {
 
 /* Полупрозрачное модальное окно для градиента */
 [data-theme="dark"] .modal-box {
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(10, 20, 18, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 180, 0.08);
 }
 
 .modal-close {

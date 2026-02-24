@@ -3,215 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Дневник — ПсиПоддержка</title>
+  <title>Личный кабинет | Псих. поддержка</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- app.js в <head> чтобы тема применилась до отрисовки (нет мигания) -->
-  <script src="app.js?v=1"></script>
 </head>
 <body>
 
-<!-- ══ НАВИГАЦИЯ ══ -->
-<nav>
-  <a class="nav-logo" href="index.html">🌿 ПсиПоддержка</a>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="index.html">Главная</a></li>
-      <li><a href="dashboard.html">Дневник</a></li>
-      <li><a href="tests.html">Тесты</a></li>
-      <li><a href="audio.html">Медитации</a></li>
-      <li><a id="logout-btn" href="#">Выйти</a></li>
-    </ul>
-    <button id="theme-toggle" title="Переключить тему">🌙</button>
-  </div>
-</nav>
-
-<!-- ══ ОСНОВНОЙ КОНТЕНТ ══ -->
-<div class="container">
-
-  <!-- Приветствие -->
-  <div style="margin-bottom: 28px;" class="fade-in">
-    <h1>Привет, <span id="user-name">...</span> 👋</h1>
-    <p>Как ты сегодня? Запишите своё состояние.</p>
+  <!-- ==================== БЛОК ВХОДА ==================== -->
+  <div id="login-section">
+    <div class="auth-card">
+      <h1>Вход</h1>
+      <p class="subtitle">Введите имя и пароль для входа</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="username">Имя</label>
+        <input type="text" id="username" placeholder="Ваше имя" required />
+        <label for="password">Пароль</label>
+        <input type="password" id="password" placeholder="Пароль" required />
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <p id="login-error" class="error-msg" style="display:none;">Неверное имя или пароль</p>
+      </form>
+      <p class="hint">Демо: любое имя + пароль <strong>1234</strong></p>
+    </div>
   </div>
 
-  <!-- ══ СТАТИСТИКА ТЕСТОВ ЗА НЕДЕЛЮ ══ -->
-  <div id="stats-container" class="card fade-in">
-    <!-- Данные вставляются через JS -->
-  </div>
+  <!-- ==================== ДАШБОРД ==================== -->
+  <div id="dashboard-section" style="display:none;">
 
-  <!-- ══ КАРТОЧКА: СРОЧНО УСПОКОИТЬСЯ ══ -->
-  <div class="card fade-in" style="text-align:center; background:var(--bg); border: 2px solid var(--rose); border-opacity: 0.4;">
-    <div style="font-size: 2rem; margin-bottom: 8px;">🆘</div>
-    <h2 style="color: var(--rose); font-size: 1.2rem;">Тревожно прямо сейчас?</h2>
-    <p style="font-size: 0.9rem; margin-bottom: 18px;">
-      Нажмите кнопку — покажем быстрый совет или включим медитацию.
-    </p>
-    <!-- emergency-btn → открывает модал (логика в app.js) -->
-    <button id="emergency-btn" class="btn btn-danger">
-      🆘 Срочно успокоиться
-    </button>
-  </div>
-
-  <!-- ══ ФОРМА ДНЕВНИКА ══ -->
-  <div class="card fade-in">
-    <h2>📓 Новая запись</h2>
-    <form id="diaryForm">
-      <div class="form-group">
-        <label for="diary-text">Что происходит? Как вы себя чувствуете?</label>
-        <textarea id="diary-text" rows="4" placeholder="Напишите любую мысль или ощущение..."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Настроение (смайлы):</label>
-        <div id="mood-emoji-selector">
-          <span class="mood-emoji" data-mood="1">☹️</span>
-          <span class="mood-emoji" data-mood="2">🙁</span>
-          <span class="mood-emoji selected" data-mood="3">😐</span>
-          <span class="mood-emoji" data-mood="4">🙂</span>
-          <span class="mood-emoji" data-mood="5">😊</span>
+    <!-- Шапка -->
+    <header class="site-header">
+      <div class="header-inner">
+        <span class="logo">🌿 Поддержка студентов</span>
+        <nav class="main-nav">
+          <a href="audio.html">🎵 Аудио</a>
+          <a href="tests.html">📋 Тесты</a>
+          <a href="hads.html">📊 HADS</a>
+          <a href="pss10.html">📈 PSS-10</a>
+        </nav>
+        <div class="header-right">
+          <span id="welcomeUser"></span>
+          <button class="btn btn-outline" id="logoutBtn">Выйти</button>
         </div>
       </div>
-      <div class="form-group">
-        <label>Оценка настроения (1-10):</label>
-        <div id="mood-scale-selector">
-          <button type="button" class="mood-scale-btn" data-mood="1">1</button>
-          <button type="button" class="mood-scale-btn" data-mood="2">2</button>
-          <button type="button" class="mood-scale-btn" data-mood="3">3</button>
-          <button type="button" class="mood-scale-btn" data-mood="4">4</button>
-          <button type="button" class="mood-scale-btn" data-mood="5">5</button>
-          <button type="button" class="mood-scale-btn selected" data-mood="6">6</button>
-          <button type="button" class="mood-scale-btn" data-mood="7">7</button>
-          <button type="button" class="mood-scale-btn" data-mood="8">8</button>
-          <button type="button" class="mood-scale-btn" data-mood="9">9</button>
-          <button type="button" class="mood-scale-btn" data-mood="10">10</button>
+    </header>
+
+    <main class="dashboard-main">
+
+      <!-- SOS блок -->
+      <section class="sos-section">
+        <div class="sos-card">
+          <h2>🆘 Срочная помощь</h2>
+          <p>Чувствуете тревогу или панику? Нажмите кнопку — получите упражнение прямо сейчас.</p>
+          <button id="emergency-btn" class="btn btn-sos">Срочно успокоиться</button>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Уровень стресса (смайлы):</label>
-        <div id="stress-emoji-selector">
-          <span class="stress-emoji" data-stress="1">😌</span>
-          <span class="stress-emoji" data-stress="2">🙂</span>
-          <span class="stress-emoji selected" data-stress="3">😐</span>
-          <span class="stress-emoji" data-stress="4">😟</span>
-          <span class="stress-emoji" data-stress="5">😰</span>
+      </section>
+
+      <!-- Дневник настроения -->
+      <section class="diary-section">
+        <div class="card">
+          <h2>📔 Дневник настроения</h2>
+          <form id="diaryForm">
+            <label for="moodScore">Оцените настроение (0–10)</label>
+            <input type="number" id="moodScore" min="0" max="10" placeholder="0–10" required />
+            <label for="diaryNote">Заметка</label>
+            <textarea id="diaryNote" rows="3" placeholder="Как вы себя чувствуете?"></textarea>
+            <button type="submit" class="btn btn-primary">Сохранить запись</button>
+          </form>
+          <div class="avg-block">
+            Среднее настроение за всё время: <strong><span id="avgScore">—</span></strong>
+          </div>
+          <div id="diaryList" class="diary-list"></div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Оценка стресса (1-10):</label>
-        <div id="stress-scale-selector">
-          <button type="button" class="stress-scale-btn" data-stress="1">1</button>
-          <button type="button" class="stress-scale-btn" data-stress="2">2</button>
-          <button type="button" class="stress-scale-btn" data-stress="3">3</button>
-          <button type="button" class="stress-scale-btn" data-stress="4">4</button>
-          <button type="button" class="stress-scale-btn" data-stress="5">5</button>
-          <button type="button" class="stress-scale-btn selected" data-stress="6">6</button>
-          <button type="button" class="stress-scale-btn" data-stress="7">7</button>
-          <button type="button" class="stress-scale-btn" data-stress="8">8</button>
-          <button type="button" class="stress-scale-btn" data-stress="9">9</button>
-          <button type="button" class="stress-scale-btn" data-stress="10">10</button>
+      </section>
+
+      <!-- Полезные ссылки -->
+      <section class="links-section">
+        <div class="card">
+          <h2>📚 Разделы</h2>
+          <div class="link-grid">
+            <a href="audio.html" class="link-card">🎵 Аудио-медитации</a>
+            <a href="tests.html" class="link-card">📋 Тесты</a>
+            <a href="hads.html" class="link-card">📊 Шкала HADS</a>
+            <a href="pss10.html" class="link-card">📈 Стресс PSS-10</a>
+          </div>
         </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== МОДАЛКА SOS ==================== -->
+  <div id="calm-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn" aria-label="Закрыть">&times;</button>
+      <h2 id="modal-title">Дышите вместе со мной</h2>
+      <div id="modal-body">
+        <!-- JS заполняет контент -->
       </div>
-      <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
+    </div>
   </div>
 
-  <!-- ===== SOS SECTION ===== -->
-<section class="sos-section">
-  <h2>🆘 Экстренная помощь</h2>
-  <p>Чувствуешь тревогу или стресс? Нажми — и мы поможем успокоиться прямо сейчас.</p>
-  <button class="sos-btn" onclick="showSos()">❤️ Срочно успокоиться</button>
-</section>
-
-<!-- ===== SOS МОДУЛЬ ===== -->
-<div class="sos-modal" id="sosModal" role="dialog" aria-modal="true" aria-label="Экстренная помощь">
-  <div class="sos-modal__inner">
-    <button class="sos-modal__close" onclick="hideSos()" aria-label="Закрыть">✕</button>
-
-    <h2>🌿 Дыши вместе со мной</h2>
-
-    <!-- Вариант 1 (активный): дыхательное упражнение -->
-    <div class="sos-breathing">
-      <div class="sos-breathing__circle" id="breathingCircle"></div>
-      <p class="sos-breathing__label" id="breathingLabel">Нажми «Начать»</p>
-      <p class="sos-breathing__scheme">Вдох 4 сек → Задержка 4 сек → Выдох 4 сек</p>
-      <button class="sos-breathing__start" id="breathingBtn" onclick="startBreathing()">▶ Начать</button>
-    </div>
-
-    <!-- Аудио (если файл meditation.mp3 есть в репозитории) -->
-    <div class="sos-audio">
-      <p>🎵 Или послушай медитацию:</p>
-      <audio controls>
-        <source src="assets/meditation.mp3" type="audio/mpeg">
-        <!-- Если файла нет — браузер покажет сообщение ниже -->
-        <span>Аудио недоступно — просто подышим ❤️</span>
-      </audio>
-    </div>
-
-    <!-- Вариант 3 (закомментирован): случайный совет
-    <div class="sos-tip" id="sosTip"></div>
-    <button onclick="showRandomTip()">🎲 Другой совет</button>
-    -->
-
-    <!-- Вариант 2 (закомментирован): ссылка на sos.html
-    <a href="sos.html" class="sos-link">Открыть страницу помощи →</a>
-    -->
-
-  </div>
-</div>
-
-  <!-- ══ СПИСОК ЗАПИСЕЙ + ЭКСПОРТ ══ -->
-  <div class="card fade-in">
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-      <h2 style="margin:0;">📅 Мои записи</h2>
-      <!-- export-btn → exportDiaryCSV() в app.js -->
-      <button id="export-btn" class="btn btn-export" style="font-size:0.85rem; padding:8px 18px;">
-        ⬇ Скачать CSV
-      </button>
-    </div>
-    <!-- Статистика -->
-    <div id="stats-summary" style="margin-bottom: 20px; padding: 16px; background: var(--bg-secondary); border-radius: 8px; text-align: center;">
-      <h3 style="margin: 0 0 10px 0; font-size: 1.1rem;">📊 Среднее настроение за весь период</h3>
-      <div style="font-size: 2rem; font-weight: bold; color: var(--primary);"><span id="avgScore">-</span></div>
-      <div style="font-size: 0.9rem; color: var(--muted);">Средняя оценка настроения (1-10)</div>
-      <p id="moodMessage" style="font-size: 0.9rem; margin: 8px 0 0 0; color: var(--text);"></p>
-      <div id="stress-avg" style="font-size: 1.5rem; margin-top: 8px; color: var(--text);">Средний стресс: -</div>
-    </div>
-    <!-- Записи рендерятся через JS: renderEntries() -->
-    <div id="entries-list"></div>
-  </div>
-
-</div><!-- /container -->
-
-
-<!-- ══ МОДАЛЬНОЕ ОКНО "Срочно успокоиться" ══
-     Изначально скрыт (display:none в CSS).
-     Открывается через openModal() в app.js.
-     ══ -->
-<div id="calm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
-
-  <div class="modal-box">
-
-    <!-- Кнопка закрытия × -->
-    <button id="modal-close-btn" class="modal-close" title="Закрыть">✕</button>
-
-    <!-- Заголовок — заполняется через JS -->
-    <h2 class="modal-title" id="modal-heading">Совет</h2>
-
-    <!-- Блок текстового совета (скрывается для аудио) -->
-    <div class="modal-tip" style="display:none;"></div>
-
-    <!-- Блок видео (скрывается для совета) -->
-    <div class="modal-video" style="display:none;"></div>
-
-    <!-- Кнопки действий -->
-    <div class="modal-actions">
-      <button id="modal-next-btn" class="btn btn-primary">Ещё совет 🔀</button>
-      <a href="audio.html" class="btn btn-outline">Все медитации</a>
-    </div>
-
-  </div>
-</div>
-
-<script src="js/dashboard.js"></script>
-
+  <script src="app.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

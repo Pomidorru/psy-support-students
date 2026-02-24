@@ -1,19 +1,3 @@
-/**
- * js/dashboard.js — Psy Support Students
- *
- * ИЗМЕНЕНИЯ:
- * - Добавлена проверка авторизации при загрузке страницы (localStorage 'currentUser')
- * - Фикс переключения login-view / dashboard-view
- * - После показа дашборда вызывается initEmergencyButton() из app.js
- * - Добавлена функция calculateAverageMood() — считает среднее из 'diaryEntries'
- * - Форма diaryForm сохраняет запись и сразу обновляет avgScore
- * - Кнопка logout очищает сессию и показывает экран входа
- *
- * Логика авторизации:
- * - Любое непустое имя + пароль не менее 4 символов → вход (demo-режим)
- * - Для продакшена замените проверку на реальную
- */
-
 (function () {
   'use strict';
 
@@ -25,11 +9,6 @@
 
     const wn = document.getElementById('welcome-name');
     if (wn) wn.textContent = 'Привет, ' + username + '!';
-
-    // Инициализируем SOS-кнопку ПОСЛЕ того, как она стала видимой
-    if (typeof initEmergencyButton === 'function') {
-      initEmergencyButton();
-    }
 
     // Показываем текущий средний балл
     updateAvgScoreDisplay();

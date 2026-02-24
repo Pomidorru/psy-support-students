@@ -354,24 +354,59 @@ function renderEntries() {
 
 function calculateMoodStats() {
   const entries = getEntries();
+  const moodAvgEl = document.getElementById('mood-avg');
+  const stressAvgEl = document.getElementById('stress-avg');
+  const moodMessageEl = document.getElementById('moodMessage');
+
   if (entries.length === 0) {
-    const moodAvgEl = document.getElementById('mood-avg');
-    const stressAvgEl = document.getElementById('stress-avg');
-    if (moodAvgEl) moodAvgEl.textContent = '0';
-    if (stressAvgEl) stressAvgEl.textContent = 'Средний стресс: 0';
+    if (moodAvgEl) moodAvgEl.textContent = '—';
+    if (stressAvgEl) stressAvgEl.textContent = 'Средний стресс: —';
+    if (moodMessageEl) moodMessageEl.textContent = 'Пока нет записей. Расскажи, как прошёл день? 📝';
     return;
   }
+
+  if (entries.length < 3) {
+    const moodSum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
+    const moodAvg = (moodSum / entries.length).toFixed(1);
+    if (moodAvgEl) {
+      moodAvgEl.textContent = moodAvg;
+      moodAvgEl.style.color = 'var(--primary)'; // нейтральный цвет
+    }
+    const stressSum = entries.reduce((total, entry) => total + (entry.stressScale || 0), 0);
+    const stressAvg = (stressSum / entries.length).toFixed(1);
+    if (stressAvgEl) stressAvgEl.textContent = `Средний стресс: ${stressAvg}`;
+    if (moodMessageEl) moodMessageEl.textContent = 'Мало записей для среднего (добавьте ещё!)';
+    return;
+  }
+
   const moodSum = entries.reduce((total, entry) => total + (entry.moodScale || 0), 0);
   const moodAvg = (moodSum / entries.length).toFixed(1);
   const stressSum = entries.reduce((total, entry) => total + (entry.stressScale || 0), 0);
   const stressAvg = (stressSum / entries.length).toFixed(1);
-  const moodAvgEl = document.getElementById('mood-avg');
-  const stressAvgEl = document.getElementById('stress-avg');
+
   if (moodAvgEl) {
     moodAvgEl.textContent = moodAvg;
+    // Цвет по значению
+    if (moodAvg >= 8) {
+      moodAvgEl.style.color = '#4CAF50'; // зелёный
+    } else if (moodAvg >= 5) {
+      moodAvgEl.style.color = '#FF9800'; // жёлтый
+    } else {
+      moodAvgEl.style.color = '#F44336'; // красный
+    }
   }
-  if (stressAvgEl) {
-    stressAvgEl.textContent = `Средний стресс: ${stressAvg}`;
+
+  if (stressAvgEl) stressAvgEl.textContent = `Средний стресс: ${stressAvg}`;
+
+  if (moodMessageEl) {
+    // Текст интерпретации
+    if (moodAvg >= 8) {
+      moodMessageEl.textContent = 'Отличный уровень! Ты в гармонии 🌟';
+    } else if (moodAvg >= 6) {
+      moodMessageEl.textContent = 'Хорошо, продолжай в том же духе 😊';
+    } else {
+      moodMessageEl.textContent = 'Стоит уделить внимание себе ❤️ Поговори с кем-то или послушай медитацию';
+    }
   }
 }
 
@@ -452,6 +487,7 @@ function initDiary() {
     
     showToast('Запись сохранена ✓');
     renderEntries();
+    calculateMoodStats(); // Обновить статистику после сохранения
   });
 
   renderEntries();

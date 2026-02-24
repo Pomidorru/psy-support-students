@@ -13,7 +13,7 @@
 const STORAGE_KEYS = {
   user:    'psy_user',      // имя пользователя
   entries: 'psy_entries',  // массив записей дневника
-  theme:   'theme',         // 'light' | 'dark'
+  theme:   'psy_theme',    // 'light' | 'dark'
 };
 
 // YouTube-медитации (замените id при необходимости)
@@ -97,9 +97,9 @@ const CALM_OPTIONS = [
 ];
 
 
-// ────────────────────────────────────────
+// ─────────────────────────────────────────
 // ТЁМНАЯ ТЕМА
-// ────────────────────────────────────────
+// ─────────────────────────────────────────
 
 /** Определить начальную тему:
  *  1. localStorage → 2. prefers-color-scheme → 3. 'light' */
@@ -109,17 +109,16 @@ function getInitialTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-/** Применить тему: класс на body, иконка на кнопке */
+/** Применить тему: data-theme на <html>, иконка на кнопке */
 function applyTheme(theme) {
-  document.body.className = theme; // 'dark' or 'light'
+  document.documentElement.setAttribute('data-theme', theme);
   const btn = document.getElementById('theme-toggle');
   if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
 }
 
 /** Переключить и сохранить */
 function toggleTheme() {
-  const current = document.body.className || 'light';
-  const next = current === 'dark' ? 'light' : 'dark';
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   localStorage.setItem(STORAGE_KEYS.theme, next);
   applyTheme(next);
 }

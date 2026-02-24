@@ -708,3 +708,25 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'dashboard.html') { initDashboard(); renderWeeklyStats(); }
   if (page === 'audio.html')     { requireAuth(); initAudio(); }
 });
+
+/* ═════════════════════════════════════════
+   ПЕРЕКЛЮЧАТЕЛЬ ТЕМ (VANILLA JS)
+   ═════════════════════════════════════════ */
+function setTheme(theme) {
+  document.body.classList.remove('dark', 'light');
+  document.body.classList.add(theme);
+  localStorage.setItem('theme', theme);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('theme') || 'dark'; // тёмная по дефолту
+  setTheme(saved);
+});
+
+const themeToggle = document.querySelector('#theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = document.body.classList.contains('dark') ? 'light' : 'dark';
+    setTheme(current);
+  });
+}

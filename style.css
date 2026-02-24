@@ -1,162 +1,172 @@
 /* ===========================
    PSY SUPPORT — style.css
-   Включает: светлая тема (по умолчанию),
-   тёмная тема [data-theme="dark"],
-   все компоненты, mobile-first
+   Чистая реализация светлой и тёмной темы
    =========================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
 
-/* ══════════════════════════════════
-   СВЕТЛАЯ ТЕМА — класс body.light
-   ══════════════════════════════════ */
-body.light {
-  --text:          #1b5e20;  /* основной текст */
-  --muted:         #2e7d32;  /* заголовки */
-  --sage:          #4caf50;  /* акценты */
-  --link:          #388e3c;  /* ссылки */
-  --btn-bg:        #66bb6a;  /* кнопки */
-  --btn-hover:     #4caf50;  /* hover кнопок */
+/* ═════════════════════════════════════════
+   СБРОС И БАЗОВЫЕ СТИЛИ
+   ═════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* ══════════════════════════════════
-   ТЁМНАЯ ТЕМА — класс body.dark
-   ══════════════════════════════════ */
-body.dark {
-  --text:          #d0ffd0;  /* основной текст */
-  --muted:         #90ee90;  /* заголовки */
-  --sage:          #00ffaa;  /* акценты/ссылки */
-  --btn-bg:        #006d5b;  /* кнопки */
-  --btn-hover:     #00967e;  /* hover кнопок */
-}
-
-/* ══════════════════════════════════
-   ГРАДИЕНТНЫЕ ФОНЫ
-   ══════════════════════════════════ */
-body {
-  background: linear-gradient(135deg, #081a14 0%, #0f2a22 40%, #1e4538 70%, #081a14 100%);
-  background-attachment: fixed;
-  background-size: cover;
+html, body {
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
-  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
-}
-
-body.light {
-  background: linear-gradient(135deg, #f0fff4 0%, #e6ffed 35%, #d4f7e0 65%, #f0fff4 100%) !important;
-  background-attachment: fixed;
-  background-size: cover;
-}
-
-body.dark {
-  background: linear-gradient(135deg, #081a14 0%, #0f2a22 40%, #1e4538 70%, #081a14 100%) !important;
-  background-attachment: fixed;
-  background-size: cover;
-}
-
-/* ══════════════════════════════════
-   ГЛОБАЛЬНЫЙ СБРОС
-   ══════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
   font-family: 'Nunito', sans-serif;
-  color: var(--text);
-  min-height: 100vh;
+  transition: background 0.9s ease, color 0.7s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ═════════════════════════════════════════
+   ТЁМНАЯ ТЕМА (по умолчанию)
+   ═════════════════════════════════════════ */
+body,
+body.dark {
+  background: linear-gradient(135deg, #081a14 0%, #0f2a22 40%, #1e4538 70%, #081a14 100%) fixed;
+  background-size: cover;
+  color: #e0ffe0;
+}
+
+/* ═════════════════════════════════════════
+   СВЕТЛАЯ ТЕМА
+   ═════════════════════════════════════════ */
+body.light {
+  background: linear-gradient(135deg, #f0fff4 0%, #e6ffed 35%, #d4f7e0 65%, #f0fff4 100%) fixed;
+  background-size: cover;
+  color: #1b5e20;
+}
+
+/* ═════════════════════════════════════════
+   ТИПОГРАФИКА
+   ═════════════════════════════════════════ */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6 {
+  color: #90ee90;
+}
+
+body.light h1,
+body.light h2,
+body.light h3,
+body.light h4,
+body.light h5,
+body.light h6 {
+  color: #2e7d32;
+}
+
+p {
+  margin-bottom: 12px;
   line-height: 1.6;
-  transition: var(--transition);
 }
 
-/* ══════════════════════════════════
-   НАВИГАЦИЯ
-   ══════════════════════════════════ */
-nav {
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--nav-border);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
+a {
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Полупрозрачная навигация для градиента */
-nav {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid #a5d6a7;
+body.dark a {
+  color: #00ffaa;
 }
 
-body.dark nav {
-  background: rgba(10, 30, 20, 0.8);
+body.light a {
+  color: #388e3c;
+}
+
+body.dark a:hover {
+  color: #4dd0e1;
+}
+
+body.light a:hover {
+  color: #4caf50;
+}
+
+/* ═════════════════════════════════════════
+   КОНТЕЙНЕРЫ, КАРТОЧКИ, NAV, etc.
+   ═════════════════════════════════════════ */
+.card,
+.container,
+main,
+section,
+nav,
+.dashboard,
+.modal-box,
+.footer {
+  border-radius: 14px;
+  transition: background 0.9s ease, color 0.7s ease;
+}
+
+/* СВЕТЛАЯ тема для контейнеров */
+body.light .card,
+body.light .container,
+body.light main,
+body.light section,
+body.light nav,
+body.light .dashboard,
+body.light .modal-box,
+body.light .footer {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #86efac;
+  box-shadow: 0 4px 24px rgba(0, 100, 0, 0.1);
+}
+
+/* ТЁМНАЯ тема для контейнеров */
+body.dark .card,
+body.dark .container,
+body.dark main,
+body.dark section,
+body.dark nav,
+body.dark .dashboard,
+body.dark .modal-box,
+body.dark .footer {
+  background: rgba(10, 30, 20, 0.85) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 255, 180, 0.12);
+  border: 1px solid rgba(0, 255, 180, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
 }
 
-.nav-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  color: var(--sage);
-  text-decoration: none;
-  font-style: italic;
-  flex-shrink: 0;
-}
-
-/* Правая часть навбара: ссылки + кнопка темы */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 4px;
-  list-style: none;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 20px;
-  transition: background 0.2s, color 0.2s;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  background: var(--sage-light);
-  color: var(--sage);
-}
-
-/* Кнопка переключения темы ☀️ / 🌙 */
+/* ═════════════════════════════════════════
+   КНОПКА ПЕРЕКЛЮЧЕНИЯ ТЕМЫ
+   ═════════════════════════════════════════ */
 #theme-toggle {
-  background: var(--bg);
-  border: 2px solid var(--warm);
+  border: none;
   border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  transition: all 0.3s ease;
+}
+
+body.dark #theme-toggle {
+  background: rgba(0, 255, 180, 0.2);
+}
+
+body.light #theme-toggle {
+  background: rgba(76, 175, 80, 0.2);
 }
 
 #theme-toggle:hover {
-  border-color: var(--sage);
-  transform: scale(1.1) rotate(20deg);
+  transform: scale(1.15);
 }
 
 /* ══════════════════════════════════
@@ -168,66 +178,9 @@ body.dark nav {
   padding: 32px 20px;
 }
 
-/* ══════════════════════════════════
-   КАРТОЧКИ
-   ══════════════════════════════════ */
 .card {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid #86efac;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(0, 100, 0, 0.1);
   padding: 28px;
   margin-bottom: 24px;
-  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
-}
-
-/* Контейнеры для светлой темы */
-body.light .container,
-body.light main,
-body.light section,
-body.light .dashboard,
-body.light .content,
-body.light .card {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid #86efac;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(0, 100, 0, 0.1);
-  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
-}
-
-/* Контейнеры для тёмной темы */
-body.dark .card,
-body.dark .container,
-body.dark main,
-body.dark section,
-body.dark .dashboard,
-body.dark .content {
-  background: rgba(10, 30, 20, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 255, 180, 0.15);
-  border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  transition: background 0.9s ease, color 0.7s ease, all 0.9s ease;
-}
-
-/* Контейнеры для тёмной темы */
-body.dark .card,
-body.dark .container,
-body.dark main,
-body.dark section,
-body.dark .dashboard,
-body.dark .content {
-  background: rgba(10, 30, 20, 0.78);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 255, 180, 0.12);
-  border-radius: 14px;
-  transition: background 0.8s ease, color 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 body.light .card:hover,
@@ -304,6 +257,7 @@ a:hover { color: var(--sage); }
 /* ══════════════════════════════════
    КНОПКИ
    ══════════════════════════════════ */
+button,
 .btn {
   display: inline-block;
   padding: 12px 28px;
@@ -314,17 +268,39 @@ a:hover { color: var(--sage); }
   cursor: pointer;
   border: none;
   text-decoration: none;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  transition: all 0.3s ease;
 }
-.btn:active { transform: scale(0.97); }
 
-.btn-primary {
-  background: var(--btn-bg);
+button:active,
+.btn:active {
+  transform: scale(0.97);
+}
+
+body.dark button,
+body.dark .btn {
+  background: #006d5b;
   color: #fff;
 }
-.btn-primary:hover {
-  background: var(--btn-hover);
+
+body.dark button:hover,
+body.dark .btn:hover {
+  background: #00967e;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 255, 180, 0.2);
+}
+
+body.light button,
+body.light .btn {
+  background: #66bb6a;
+  color: #fff;
+}
+
+body.light button:hover,
+body.light .btn:hover {
+  background: #4caf50;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 

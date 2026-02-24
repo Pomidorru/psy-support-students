@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Дневник — ПсиПоддержка</title>
   <link rel="stylesheet" href="style.css?v=20260224" />
+  <!-- Применить тему ДО отрисовки, чтобы не было мигания -->
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme') || 'dark';
+      document.documentElement.className = saved;
+      document.body.className = saved;
+    })();
+  </script>
   <!-- app.js в <head> чтобы тема применилась до отрисовки (нет мигания) -->
   <script src="app.js?v=1"></script>
 </head>

@@ -48,7 +48,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // После отправки формы дневника — пересчитываем среднее
 document.getElementById('diaryForm').addEventListener('submit', function(event) {
-  // Предполагаем, что форма обрабатывается отдельно, здесь только обновляем среднее
-  // Если нужно, можно добавить задержку setTimeout, но для простоты сразу
-  setTimeout(calculateAverageMood, 100); // Небольшая задержка, чтобы localStorage обновился
+  setTimeout(calculateAverageMood, 100);
 });

@@ -118,7 +118,6 @@
   <div class="card fade-in">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
       <h2 style="margin:0;">📅 Мои записи</h2>
-      <!-- export-btn → exportDiaryCSV() в app.js -->
       <button id="export-btn" class="btn btn-export" style="font-size:0.85rem; padding:8px 18px;">
         ⬇ Скачать CSV
       </button>
@@ -135,13 +134,9 @@
     <div id="entries-list"></div>
   </div>
 
-</div><!-- /container -->
+</div>
 
 
-<!-- ══ МОДАЛЬНОЕ ОКНО "Срочно успокоиться" ══
-     Изначально скрыт (display:none в CSS).
-     Открывается через openModal() в app.js.
-     ══ -->
 <div id="calm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
 
   <div class="modal-box">

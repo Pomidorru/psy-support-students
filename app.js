@@ -209,16 +209,16 @@ function deleteEntry(id) {
 
 // Цвет бейджа настроения
 function moodColor(m) {
-  if (m <= 2) return '#C97D7D';   // плохо
-  if (m === 3) return '#D4A857';   // средне
-  return '#7A9E7E';               // хорошо
+  if (m <= 2) return '#C97D7D';
+  if (m === 3) return '#D4A857';
+  return '#7A9E7E';
 }
 
 // Цвет бейджа стресса
 function stressColor(s) {
-  if (s <= 2) return '#7A9E7E';   // низкий стресс
-  if (s === 3) return '#D4A857';   // средний
-  return '#C97D7D';               // высокий стресс
+  if (s <= 2) return '#7A9E7E';
+  if (s === 3) return '#D4A857';
+  return '#C97D7D';
 }
 
 // Эмодзи настроения
@@ -233,15 +233,6 @@ function getStressEmoji(s) {
   return emojis[s - 1] || '😐';
 }
 
-// Конвертация старого mood (1-10) в moodScore (1-5)
-function convertMoodToScore(m) {
-  if (m <= 2) return 1;
-  if (m <= 4) return 2;
-  if (m === 5) return 3;
-  if (m <= 8) return 4;
-  return 5;
-}
-
 function getWeeklyTestStats() {
   try {
     const tests = JSON.parse(localStorage.getItem('psy_tests')) || [];
@@ -249,7 +240,6 @@ function getWeeklyTestStats() {
     const sevenDaysAgo = new Date(now);
     sevenDaysAgo.setDate(now.getDate() - 7);
 
-    // Фильтруем тесты за последние 7 дней
     const recentTests = tests.filter(test => {
       const testDate = new Date(test.date);
       return testDate >= sevenDaysAgo && testDate <= now;
@@ -259,11 +249,9 @@ function getWeeklyTestStats() {
       return { recommendation: 'Нет данных за последнюю неделю. Пройдите тест для оценки.' };
     }
 
-    // Рассчитываем средний балл
     const totalScore = recentTests.reduce((sum, test) => sum + (test.score || 0), 0);
     const averageScore = totalScore / recentTests.length;
 
-    // Определяем рекомендацию на основе среднего балла
     let recommendation;
     if (averageScore < 4) {
       recommendation = 'Ваш средний балл низкий. Рекомендуется обратиться к психологу для дополнительной поддержки.';
@@ -280,19 +268,18 @@ function getWeeklyTestStats() {
   }
 }
 
-function  renderWeeklyStats() {
+function renderWeeklyStats() {
   const container = document.getElementById('stats-container');
   if (!container) return;
 
   const stats = getWeeklyTestStats();
 
-  // Определяем цвет рамки
   let borderColor = 'transparent';
   if (stats.averageScore) {
     const score = parseFloat(stats.averageScore);
-    if (score < 4) borderColor = '#C97D7D'; // красный
-    else if (score < 7) borderColor = '#D4A857'; // желтый
-    else borderColor = '#7A9E7E'; // зеленый
+    if (score < 4) borderColor = '#C97D7D';
+    else if (score < 7) borderColor = '#D4A857';
+    else borderColor = '#7A9E7E';
   }
 
   container.style.borderColor = borderColor;
@@ -314,7 +301,7 @@ function renderEntries() {
   const entries = getEntries();
   if (!entries.length) {
     list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;">Записей пока нет. Напишите первую! 🌱</p>';
-    calculateMoodStats();
+    updateMoodDisplay(); // Было calculateMoodStats() — функция не существовала
     return;
   }
 
@@ -323,7 +310,7 @@ function renderEntries() {
     const moodScale = e.moodScale || 6;
     const stressEmoji = e.stressEmoji || 3;
     const stressScale = e.stressScale || 6;
-    
+
     return `
     <div class="entry-card">
       <div class="entry-badges">
@@ -341,13 +328,13 @@ function renderEntries() {
     </div>
   `}).join('');
 
-  updateMoodDisplay(); // Обновить среднее настроение
+  updateMoodDisplay();
 }
 
 // Функция для расчёта среднего настроения
 function calculateAverageMood() {
   try {
-    let entries = getEntries(); // Используем существующую функцию для чтения
+    let entries = getEntries();
     if (entries.length === 0) {
       return { score: '—', message: 'Нет записей. Добавь первую!' };
     }
@@ -372,13 +359,14 @@ function calculateAverageMood() {
 // Функция для обновления отображения среднего настроения
 function updateMoodDisplay() {
   const result = calculateAverageMood();
-  const scoreEl = document.getElementById('mood-avg');
+
+  // Был id="mood-avg", в HTML стоит id="avgScore"
+  const scoreEl = document.getElementById('avgScore');
   const messageEl = document.getElementById('moodMessage');
+
   if (scoreEl) {
     scoreEl.textContent = result.score;
-    // Удалить старые классы цвета
     scoreEl.classList.remove('mood-green', 'mood-yellow', 'mood-red');
-    // Добавить класс по значению только если записей >=3 и score число
     if (!isNaN(result.score) && getEntries().length >= 3) {
       if (result.score >= 8) scoreEl.classList.add('mood-green');
       else if (result.score >= 6) scoreEl.classList.add('mood-yellow');
@@ -386,18 +374,30 @@ function updateMoodDisplay() {
     }
   }
   if (messageEl) messageEl.textContent = result.message;
+
+  // Обновляем средний стресс
+  const stressAvgEl = document.getElementById('stress-avg');
+  if (stressAvgEl) {
+    const entries = getEntries();
+    if (entries.length === 0) {
+      stressAvgEl.textContent = 'Средний стресс: —';
+    } else {
+      const sum = entries.reduce((acc, e) => acc + (e.stressScale || 0), 0);
+      const avg = (sum / entries.length).toFixed(1);
+      stressAvgEl.textContent = `Средний стресс: ${avg}`;
+    }
+  }
 }
 
 function initDiary() {
-  let currentMoodEmoji = 3;    // выбранный смайл (1-5)
-  let currentMoodScale = 6;    // выбранная цифра (1-10)
-  let currentStressEmoji = 3;  // выбранный смайл стресса (1-5)
-  let currentStressScale = 6;  // выбранная цифра стресса (1-10)
+  let currentMoodEmoji = 3;
+  let currentMoodScale = 6;
+  let currentStressEmoji = 3;
+  let currentStressScale = 6;
 
   const form = document.getElementById('diaryForm');
   if (!form) return;
 
-  // Обработчики для шкалы настроения (смайлы)
   document.querySelectorAll('#mood-emoji-selector .mood-emoji').forEach(emoji => {
     emoji.addEventListener('click', () => {
       document.querySelectorAll('#mood-emoji-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
@@ -406,7 +406,6 @@ function initDiary() {
     });
   });
 
-  // Обработчики для шкалы настроения (цифры)
   document.querySelectorAll('#mood-scale-selector .mood-scale-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#mood-scale-selector .mood-scale-btn').forEach(b => b.classList.remove('selected'));
@@ -415,7 +414,6 @@ function initDiary() {
     });
   });
 
-  // Обработчики для шкалы стресса (смайлы)
   document.querySelectorAll('#stress-emoji-selector .stress-emoji').forEach(emoji => {
     emoji.addEventListener('click', () => {
       document.querySelectorAll('#stress-emoji-selector .stress-emoji').forEach(e => e.classList.remove('selected'));
@@ -424,7 +422,6 @@ function initDiary() {
     });
   });
 
-  // Обработчики для шкалы стресса (цифры)
   document.querySelectorAll('#stress-scale-selector .stress-scale-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#stress-scale-selector .stress-scale-btn').forEach(b => b.classList.remove('selected'));
@@ -440,32 +437,26 @@ function initDiary() {
 
     saveEntry(text, currentMoodEmoji, currentMoodScale, currentStressEmoji, currentStressScale);
 
-    // Сброс формы
     document.getElementById('diary-text').value = '';
-    
-    // Сброс настроения (смайлы) к среднему
+
     document.querySelectorAll('#mood-emoji-selector .mood-emoji').forEach(e => e.classList.remove('selected'));
     document.querySelector('#mood-emoji-selector .mood-emoji[data-mood="3"]').classList.add('selected');
     currentMoodEmoji = 3;
-    
-    // Сброс настроения (цифры) к 6
+
     document.querySelectorAll('#mood-scale-selector .mood-scale-btn').forEach(b => b.classList.remove('selected'));
     document.querySelector('#mood-scale-selector .mood-scale-btn[data-mood="6"]').classList.add('selected');
     currentMoodScale = 6;
-    
-    // Сброс стресса (смайлы) к среднему
+
     document.querySelectorAll('#stress-emoji-selector .stress-emoji').forEach(e => e.classList.remove('selected'));
     document.querySelector('#stress-emoji-selector .stress-emoji[data-stress="3"]').classList.add('selected');
     currentStressEmoji = 3;
-    
-    // Сброс стресса (цифры) к 6
+
     document.querySelectorAll('#stress-scale-selector .stress-scale-btn').forEach(b => b.classList.remove('selected'));
     document.querySelector('#stress-scale-selector .stress-scale-btn[data-stress="6"]').classList.add('selected');
     currentStressScale = 6;
-    
+
     showToast('Запись сохранена ✓');
     renderEntries();
-    updateMoodDisplay(); // Обновить статистику после сохранения
   });
 
   renderEntries();
@@ -476,7 +467,6 @@ function initDiary() {
 // МОДАЛЬНОЕ ОКНО — СРОЧНО УСПОКОИТЬСЯ
 // ─────────────────────────────────────────
 
-/** Открыть модал: заполнить заголовок, контент */
 function openModal(option) {
   const overlay = document.getElementById('calm-modal');
   if (!overlay) return;
@@ -490,10 +480,8 @@ function openModal(option) {
     tipBlock.innerHTML     = option.content;
     tipBlock.style.display = 'block';
     videoBlock.style.display = 'none';
-    videoBlock.innerHTML   = ''; // очищаем возможный старый iframe
-
+    videoBlock.innerHTML   = '';
   } else if (option.type === 'audio') {
-    // Выбрать случайный YouTube ID
     const videoId = option.id || MEDITATIONS[Math.floor(Math.random() * MEDITATIONS.length)].id;
     videoBlock.innerHTML   = `
       <iframe
@@ -507,21 +495,18 @@ function openModal(option) {
   }
 
   overlay.classList.add('open');
-  document.body.style.overflow = 'hidden'; // запрет прокрутки фона
+  document.body.style.overflow = 'hidden';
 }
 
-/** Закрыть модал и остановить видео */
 function closeModal() {
   const overlay = document.getElementById('calm-modal');
   if (!overlay) return;
   overlay.classList.remove('open');
   document.body.style.overflow = '';
-  // Очищаем src iframe, чтобы остановить воспроизведение
   const iframe = overlay.querySelector('iframe');
   if (iframe) iframe.src = '';
 }
 
-/** Выбрать случайный вариант и открыть */
 function pickAndOpenCalmOption() {
   const option = { ...CALM_OPTIONS[Math.floor(Math.random() * CALM_OPTIONS.length)] };
   if (option.type === 'audio') {
@@ -533,24 +518,20 @@ function pickAndOpenCalmOption() {
 }
 
 function initEmergencyButton() {
-  // Кнопка на странице
   const btn = document.getElementById('emergency-btn');
   if (btn) btn.addEventListener('click', pickAndOpenCalmOption);
 
-  // Кнопка "Ещё совет" внутри модала
   const nextBtn = document.getElementById('modal-next-btn');
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
       closeModal();
-      setTimeout(pickAndOpenCalmOption, 200); // небольшая задержка для анимации
+      setTimeout(pickAndOpenCalmOption, 200);
     });
   }
 
-  // Кнопка × внутри модала
   const closeBtn = document.getElementById('modal-close-btn');
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
-  // Клик на затемнение (вне окна) — закрыть
   const overlay = document.getElementById('calm-modal');
   if (overlay) {
     overlay.addEventListener('click', (e) => {
@@ -558,7 +539,6 @@ function initEmergencyButton() {
     });
   }
 
-  // Escape — закрыть
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
@@ -577,14 +557,12 @@ function exportDiaryCSV() {
     return;
   }
 
-  // BOM \uFEFF — нужен для корректной кириллицы в Excel
   const BOM  = '\uFEFF';
   const rows = [
-    ['Дата', 'Настроение', 'Запись'],  // заголовок
+    ['Дата', 'Настроение', 'Запись'],
     ...entries.map(e => [
       e.date,
       e.mood,
-      // Экранируем кавычки по стандарту CSV
       `"${String(e.text).replace(/"/g, '""')}"`,
     ]),
   ];
@@ -593,17 +571,14 @@ function exportDiaryCSV() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url  = URL.createObjectURL(blob);
 
-  const today    = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const today    = new Date().toISOString().slice(0, 10);
   const filename = `diary_emotions_${today}.csv`;
 
-  // Временный элемент <a> для скачивания
   const link = document.createElement('a');
   link.href     = url;
   link.download = filename;
   document.body.appendChild(link);
   link.click();
-
-  // Убираем за собой
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 
@@ -644,7 +619,6 @@ function initAudio() {
     </div>
   `).join('');
 
-  // Автозапуск, если пришли с дашборда
   const params = new URLSearchParams(window.location.search);
   const playId = params.get('play');
   if (playId) {
@@ -679,20 +653,16 @@ function initDashboard() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Обновить иконку кнопки после загрузки DOM
   applyTheme(getInitialTheme());
 
-  // Переключатель темы (в nav)
   const themeBtn = document.getElementById('theme-toggle');
   if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
 
-  // Кнопка выхода
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) logoutBtn.addEventListener('click', (e) => { e.preventDefault(); logout(); });
 
   highlightNav();
 
-  // Роутинг по имени файла
   const page = window.location.pathname.split('/').pop() || 'index.html';
 
   if (page === 'login.html')     initLogin();

@@ -301,7 +301,7 @@ function renderEntries() {
   const entries = getEntries();
   if (!entries.length) {
     list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px 0;">Записей пока нет. Напишите первую! 🌱</p>';
-    updateMoodDisplay(); // Было calculateMoodStats() — функция не существовала
+    updateMoodDisplay(); // было calculateMoodStats() — функция не существовала
     return;
   }
 
@@ -360,7 +360,7 @@ function calculateAverageMood() {
 function updateMoodDisplay() {
   const result = calculateAverageMood();
 
-  // Был id="mood-avg", в HTML стоит id="avgScore"
+  // был id="mood-avg", в HTML стоит id="avgScore"
   const scoreEl = document.getElementById('avgScore');
   const messageEl = document.getElementById('moodMessage');
 

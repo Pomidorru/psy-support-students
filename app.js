@@ -49,7 +49,7 @@ function getInitialTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-/** Применить тему: data-theme на <html>, иконка на кнопке */
+
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   const btn = document.getElementById('theme-toggle');
@@ -61,12 +61,7 @@ function toggleTheme() {
   localStorage.setItem(STORAGE_KEYS.theme, next);
   applyTheme(next);
 }
-
-// Применяем тему ДО загрузки DOM — убирает "мигание" белого фона
-applyTheme(getInitialTheme());
-
-
-// ─────────────────────────────────────────
+ ─────────────────────────────────────────
 // УТИЛИТЫ
 // ─────────────────────────────────────────
 

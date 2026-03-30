@@ -43,8 +43,6 @@ const MEDITATIONS_CATEGORIES = [
 // ТЁМНАЯ ТЕМА
 // ─────────────────────────────────────────
 
-/** Определить начальную тему:
- *  1. localStorage → 2. prefers-color-scheme → 3. 'light' */
 function getInitialTheme() {
   const saved = localStorage.getItem(STORAGE_KEYS.theme);
   if (saved === 'dark' || saved === 'light') return saved;
@@ -58,7 +56,6 @@ function applyTheme(theme) {
   if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
 }
 
-/** Переключить и сохранить */
 function toggleTheme() {
   const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   localStorage.setItem(STORAGE_KEYS.theme, next);

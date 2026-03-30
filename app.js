@@ -61,7 +61,9 @@ function toggleTheme() {
   localStorage.setItem(STORAGE_KEYS.theme, next);
   applyTheme(next);
 }
- ─────────────────────────────────────────
+ 
+
+─────────────────────────────────────────
 // УТИЛИТЫ
 // ─────────────────────────────────────────
 
